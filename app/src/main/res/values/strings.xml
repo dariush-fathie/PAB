@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AudioBook</string>
+    <string name="profile">پروفایل</string>
+    <string name="shopping_cart">سبد خرید</string>
+    <string name="myLibrary">کتابخانه من</string>
+    <string name="home">خانه</string>
+    <string name="what_you_looking_for">دنبال چه چیزی می گردین ؟</string>
+</resources>
