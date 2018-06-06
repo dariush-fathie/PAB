@@ -3,27 +3,27 @@ package ir.paad.audiobook
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
+import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.AppCompatTextView
 import android.util.Log
+import android.view.View
 import ir.paad.audiobook.customClass.BadgeDrawable
-import ir.paad.audiobook.fragments.HomeFragment
-import ir.paad.audiobook.fragments.MyLibraryFragment
-import ir.paad.audiobook.fragments.ProfileFragment
-import ir.paad.audiobook.fragments.ShoppingCartFragment
+import ir.paad.audiobook.fragments.*
 import ir.paad.audiobook.utils.Colors
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.player_view_sheet.*
+import kotlinx.android.synthetic.main.small_player_control.*
 
 
 class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
 
-    // default selection is home tab at position 0
-    val selectedTab = 0
-
+    private lateinit var mBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var mBottomSheetCallback: BottomSheetBehavior.BottomSheetCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         startActivity(Intent(this@MainActivity, SplashActivity::class.java))
@@ -33,8 +33,33 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         // add [HomeFragment] to backStack
         loadFragments(0)
 
-        addBadge(0)
+        //addBadge(0)
 
+        initBottomSheet()
+
+        //startService(Intent(this, PlayerService::class.java))
+
+    }
+
+
+    private fun initBottomSheet() {
+        mBottomSheetBehavior = BottomSheetBehavior.from(cl_bottomSheetPlayerView)
+        mBottomSheetBehavior.setBottomSheetCallback(getBottomSheetCallback())
+    }
+
+    private fun getBottomSheetCallback(): BottomSheetBehavior.BottomSheetCallback {
+        mBottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                rl_smallController.alpha = 1 - slideOffset
+                rl_mainController.alpha = slideOffset
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+            }
+        }
+        return mBottomSheetCallback
     }
 
 
@@ -53,17 +78,23 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
             }
             1 -> {
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.fl_mainContainer, MyLibraryFragment())
-                        .addToBackStack("myLib")
+                        .add(R.id.fl_mainContainer, SearchFragment())
+                        .addToBackStack("search")
                         .commit()
             }
             2 -> {
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.fl_mainContainer, ShoppingCartFragment())
-                        .addToBackStack("shop")
+                        .add(R.id.fl_mainContainer, CategoryFragment())
+                        .addToBackStack("catergory")
                         .commit()
             }
             3 -> {
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.fl_mainContainer, MyLibraryFragment())
+                        .addToBackStack("myLib")
+                        .commit()
+            }
+            4 -> {
                 supportFragmentManager.beginTransaction()
                         .add(R.id.fl_mainContainer, ProfileFragment())
                         .addToBackStack("profile")

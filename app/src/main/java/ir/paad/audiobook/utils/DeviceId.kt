@@ -1,5 +1,6 @@
 package ir.paad.audiobook.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.provider.Settings
@@ -7,8 +8,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.RandomAccessFile
-import java.util.UUID.randomUUID
-import java.nio.file.Files.exists
 import java.util.*
 
 
@@ -20,15 +19,18 @@ object DeviceId {
         deviceBuildInfo = StringUtil.removeSpaces(deviceBuildInfo)
     }
 
-    fun getAndroidId(ctx : Context): String {
+    @SuppressLint("HardwareIds")
+    fun getAndroidId(ctx: Context): String {
         var androidId = Settings.Secure.getString(ctx.contentResolver,
                 Settings.Secure.ANDROID_ID)
-        if (androidId == null){
+        if (androidId == null) {
             androidId = "0"
+            // request another id like AdvertisingID
         }
         androidId = deviceBuildInfo + androidId
         return androidId
     }
+
 
 
     /*fun getIdThread() {
@@ -55,7 +57,7 @@ object DeviceId {
 
     object Installation {
         private var sID: String? = null
-        private val INSTALLATION = "INSTALLATION"
+        private const val INSTALLATION = "INSTALLATION"
 
         @Synchronized
         fun id(context: Context): String {
@@ -68,7 +70,6 @@ object DeviceId {
                 } catch (e: Exception) {
                     throw RuntimeException(e)
                 }
-
             }
             return sID as String
         }

@@ -7,9 +7,9 @@
     android:background="@drawable/round_rect_back"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
     android:text="gener name"
     android:textColor="@color/b"
-    android:textSize="17sp"
+    android:textSize="14sp"
     app:fontFamily="@font/yekan" />

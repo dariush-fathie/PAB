@@ -5,4 +5,16 @@
     <string name="myLibrary">کتابخانه من</string>
     <string name="home">خانه</string>
     <string name="what_you_looking_for">دنبال چه چیزی می گردین ؟</string>
+    <string name="title_activity_detail">DetailActivity</string>
+
+    <string name="firstTime">firstTime</string>
+    <string name="isGranted">isGranted</string>
+    <string name="token">token</string>
+    <string name="firebaseToken">firebaseToken</string>
+    <string name="defaultConfiguration">DEF_CONF</string>
+    <string name="default_information">defaultInforamtion</string>
+    <string name="realm">.realm</string>
+    <string name="search">جستجو</string>
+    <string name="category">دسته بندی</string>
+
 </resources>

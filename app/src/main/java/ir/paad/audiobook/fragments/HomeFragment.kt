@@ -17,14 +17,15 @@ import ir.paad.audiobook.decoration.HorizontalLinearLayoutDecoration
 import ir.paad.audiobook.decoration.VerticalLinearLayoutDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
-    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+class HomeFragment : Fragment() {
+    /*override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
         if (Math.abs(verticalOffset) == appBarLayout?.totalScrollRange) {
             view_gradient.visibility = View.VISIBLE
         } else {
             view_gradient.visibility = View.GONE
         }
     }
+*/
 
     companion object {
         fun putBundle(bundle: Bundle): MyLibraryFragment {
@@ -46,7 +47,6 @@ class HomeFragment : Fragment(), AppBarLayout.OnOffsetChangedListener {
         loadSliderAdapter()
         loadGenesAdapter()
         loadMainAdapter()
-        appBarLayout.addOnOffsetChangedListener(this)
     }
 
 

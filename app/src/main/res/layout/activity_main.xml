@@ -12,48 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/cl_home"
+        <FrameLayout
+            android:layout_marginBottom="48dp"
+            android:id="@+id/fl_mainContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background">
+            android:layout_height="match_parent"/>
 
-            <RelativeLayout
-                android:id="@+id/rl_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/colorPrimaryDark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_menu"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:padding="11dp"
-                    android:src="@drawable/ic_menu"
-                    app:tint="@color/white" />
-
-            </RelativeLayout>
-
-            <FrameLayout
-                android:id="@+id/fl_mainContainer"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rl_toolbar" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <include layout="@layout/player_view_sheet"/>
+        <include layout="@layout/player_view_sheet" android:visibility="gone"/>
 
         <ir.paad.audiobook.customClass.CustomTabLayout
             android:id="@+id/tbl_main"
+            app:tabIndicatorHeight="0dp"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="44dp"
             android:layout_gravity="bottom"
             android:background="@color/colorPrimaryDark"
             app:tabGravity="fill"
@@ -68,18 +39,25 @@
                 android:text="@string/home" />
 
             <android.support.design.widget.TabItem
+                android:id="@+id/ti_mySearch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:icon="@drawable/ic_search"
+                android:text="@string/search" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/ti_myCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:icon="@drawable/ic_category"
+                android:text="@string/category" />
+
+            <android.support.design.widget.TabItem
                 android:id="@+id/ti_myLibrary"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:icon="@drawable/ic_my_books"
                 android:text="@string/myLibrary" />
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/ti_cart"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_cart"
-                android:text="@string/shopping_cart" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/ti_profile"

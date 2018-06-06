@@ -140,7 +140,7 @@ public final class CustomFileDataSource implements DataSource {
 
     @Override
     public int read(byte[] buffer, int offset, int readLength) throws FileDataSourceException {
-        Log.e("read ", "start");
+        //Log.e("read ", "start");
         if (readLength == 0) {
             return 0;
         } else if (bytesRemaining == 0) {
