@@ -25,7 +25,7 @@ object DeviceId {
                 Settings.Secure.ANDROID_ID)
         if (androidId == null) {
             androidId = "0"
-            // request another id like AdvertisingID
+            // request another userId like AdvertisingID
         }
         androidId = deviceBuildInfo + androidId
         return androidId
@@ -50,14 +50,29 @@ object DeviceId {
             // Google Play services is not available entirely.
         }
 
-        val id = adInfo!!.getId()
+        val userId = adInfo!!.getUserId()
         val isLAT = adInfo!!.isLimitAdTrackingEnabled()
     }*/
 
 
     object Installation {
+
+        // todo we most save file in multiple directories
+
         private var sID: String? = null
         private const val INSTALLATION = "INSTALLATION"
+
+        fun isAnyInstallationFile(context: Context) : Boolean{
+            val installation = File(context.filesDir, ".$INSTALLATION")
+            try {
+                if (installation.exists()) {
+                    return true
+                }
+            } catch (e: Exception) {
+                throw RuntimeException(e)
+            }
+            return false
+        }
 
         @Synchronized
         fun id(context: Context): String {

@@ -3,6 +3,7 @@ package ir.paad.audiobook.customClass
 import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.GsonBuilder
+import io.realm.RealmObject
 
 class CustomGSON {
 
@@ -12,8 +13,7 @@ class CustomGSON {
         }
 
         override fun shouldSkipField(f: FieldAttributes?): Boolean {
-            //return f?.declaredClass == RealmObject::class.java
-            return true  // todo remove this line
+            return f?.declaredClass == RealmObject::class.java
         }
 
     }).create()!!

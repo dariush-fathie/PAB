@@ -6,11 +6,11 @@ import android.content.SharedPreferences
 class SharedPreferencesUtil(context: Context) {
 
     private val config = "config"
-    private val defaultStringValue = "default"
+    private val defaultStringValue = ""
     private val defaultBooleanValue = false
     private val defaultIntValue = -1
-    private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
+    private var sharedPreferences: SharedPreferences
+    private var editor: SharedPreferences.Editor
 
 
     init {
@@ -19,47 +19,30 @@ class SharedPreferencesUtil(context: Context) {
         editor.apply()
     }
 
-    fun getStringValue(name: String) :String{
-        if (this::sharedPreferences.isInitialized){
-            return sharedPreferences.getString("name", defaultStringValue)
-        }
-        return defaultStringValue
+    fun getStringValue(name: String): String {
+        return sharedPreferences.getString(name, defaultStringValue)
     }
 
-    fun putStringValue(name: String, value: String): Boolean {
-        if (this::editor.isInitialized) {
-            return editor.putString(name, value).commit()
-        }
-        return false
+    fun putStringValue(name: String, value: String) {
+        editor.putString(name, value).apply()
+        editor.commit()
     }
 
     fun getIntValue(name: String): Int {
-        if (this::sharedPreferences.isInitialized) {
-            return sharedPreferences.getInt(name, defaultIntValue)
-        }
-        return defaultIntValue
+        return sharedPreferences.getInt(name, defaultIntValue)
     }
 
-    fun putIntValue(name: String, value: Int): Boolean {
-        if (this::editor.isInitialized) {
-            return editor.putInt(name, value).commit()
-        }
-        return false
+    fun putIntValue(name: String, value: Int) {
+        editor.putInt(name, value).apply()
     }
 
 
-    fun putBooleanValue(name: String, value: Boolean): Boolean {
-        if (this::editor.isInitialized) {
-            return editor.putBoolean(name, value).commit()
-        }
-        return false
+    fun putBooleanValue(name: String, value: Boolean) {
+        editor.putBoolean(name, value).apply()
     }
 
     fun getBooleanValue(name: String): Boolean {
-        if (this::sharedPreferences.isInitialized) {
-            return sharedPreferences.getBoolean(name, defaultBooleanValue)
-        }
-        return false
+        return sharedPreferences.getBoolean(name, defaultBooleanValue)
     }
 
 }

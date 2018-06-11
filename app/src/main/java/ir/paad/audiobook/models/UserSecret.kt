@@ -8,19 +8,25 @@ import io.realm.annotations.RealmClass
 @RealmClass
 open class UserSecret : RealmObject() {
 
-    @SerializedName("")
+    @SerializedName("token")
     @Expose
     open var token = ""
 
-    @SerializedName("")
+    @SerializedName("userId")
     @Expose
-    open var id = ""
+    open var userId = ""
 
-    @SerializedName("")
+    @SerializedName("newToken")
     @Expose
     open var newToken = false
 
-    @SerializedName("")
+    @SerializedName("newId")
     @Expose
     open var newId = false
+
+
+    override fun toString(): String {
+        return "$token : $userId : $newToken : $newId"
+    }
+
 }

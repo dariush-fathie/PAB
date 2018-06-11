@@ -1,5 +1,6 @@
 package ir.paad.audiobook
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -10,9 +11,12 @@ import android.widget.Toast
 import ir.paad.audiobook.client.ServerRequest
 import ir.paad.audiobook.models.Config
 import ir.paad.audiobook.models.UserSecret
+import ir.paad.audiobook.models.events.NetChangeEvent
 import ir.paad.audiobook.utils.NetworkUtil
 import ir.paad.audiobook.utils.SharedPreferencesUtil
 import ir.paad.audiobook.utils.ToastUtil
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,26 +24,39 @@ import retrofit2.Response
 class SplashActivity : AppCompatActivity() {
 
     private val requestCode = 1019
+    private var netFlag = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.acitivity_splash)
-        finish()
-        //requestWriteAndReadPer()
+        requestWriteAndReadPer()
     }
+
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+        NetworkUtil().updateNetFlag(this)
+    }
+
+    override fun onStop() {
+        EventBus.getDefault().unregister(this)
+        super.onStop()
+    }
+
+
+    @Subscribe
+    fun onNetStateChange(event: NetChangeEvent) {
+        netFlag = event.isCon
+        ToastUtil.showShortToast(this, "netConnection = $netFlag")
+    }
+
 
     private fun checkUser(userSecret: UserSecret) {
         val ft = resources.getString(R.string.firstTime)
         val sp = SharedPreferencesUtil(this@SplashActivity)
 
-        if (sp.getBooleanValue(ft)) {
-            sp.putBooleanValue(ft, false)
-            // create user data base
-            Log.e("firstTime", "true")
-        } else {
-            Log.e("firstTime", "false")
-            // todo check if user info are complete
-        }
     }
 
     private fun config() {
@@ -53,9 +70,11 @@ class SplashActivity : AppCompatActivity() {
 
                 val conf = response.body()
 
-                // if status was null so there is an error don't continue
+                // if conf was null so there is an error don't continue
                 conf ?: onFailure(call, Throwable("null status"))
                 conf ?: return
+
+                Log.e("res", conf.userSecret.toString())
 
                 if (conf.serverStatus) {
                     if (conf.updateForce) {
@@ -79,8 +98,10 @@ class SplashActivity : AppCompatActivity() {
         })
     }
 
+
     private fun checkNetWorkConnection() {
-        if (NetworkUtil().isNetworkAvailable(this)) {
+        startActivity(Intent(this, MainActivity::class.java))
+        if (netFlag) {
             Log.e("network", "available")
             config()
         } else {
@@ -106,7 +127,7 @@ class SplashActivity : AppCompatActivity() {
                         , android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             val builder = AlertDialog.Builder(this)
-            builder.setMessage("")
+            builder.setMessage("{نام برنامه} برای ذخیره سازی اطلاعات نیاز به اجازه شما دارد")
             builder.setPositiveButton("باشه", { dialog, which ->
                 showPermissionDialog()
             })
@@ -132,7 +153,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (this.requestCode == requestCode) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // app can read/write external storage
+                checkNetWorkConnection()
             } else {
                 // permission not granted request again ...
                 requestWriteAndReadPer()

@@ -2,8 +2,11 @@ package ir.paad.audiobook.models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import io.realm.RealmObject
+import io.realm.annotations.RealmClass
 
-open class Config {
+@RealmClass
+open class Config : RealmObject() {
 
     @SerializedName("serverStatus")
     @Expose
@@ -13,9 +16,9 @@ open class Config {
     @Expose
     open var currentVersion: String = ""
 
-    @SerializedName("templatePath")
+    @SerializedName("template")
     @Expose
-    open var templatePath: String = ""
+    open var template: Template? = null
 
     @SerializedName("updateForce")
     @Expose
@@ -29,10 +32,9 @@ open class Config {
     @Expose
     open var updateMessage: String = ""
 
-    @SerializedName("updateMessage")
+    @SerializedName("secret")
     @Expose
     open var userSecret: UserSecret? = null
-
 
 }
 

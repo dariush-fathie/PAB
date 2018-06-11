@@ -15,48 +15,55 @@ class ServerRequest {
     fun config(context: Context, callback: Callback<Config>) {
 
         val sp = SharedPreferencesUtil(context)
-        val ft = context.resources.getString(R.string.firstTime)
 
-        // token and id that create in server for firstTime they are empty
+        // token and userId that create in server for firstTime they are empty
         var token = ""
         var id = ""
 
-        // default value of boolean value is false
-        if (!sp.getBooleanValue(ft)) {
+        if (!sp.getBooleanValue(context.getString(R.string.userConfig))) {
             createUserDataBase(context)
-            sp.putBooleanValue(ft, true)
-        } else {
-            // to open encrypted database first create RealmConfiguration instance and pass it to Realm.getInstance([configuration])
-            val db = Realm.getInstance(RealmConfiguration.Builder()
-                    .name(context.getString(R.string.default_information) + context.getString(R.string.realm))
-                    .schemaVersion(context.resources.getInteger(R.integer.schema_version).toLong())
-                    .encryptionKey(Base64util().decodeFromString(sp.getStringValue(context.getString(R.string.defaultConfiguration))))
-                    .build())
+            sp.putBooleanValue(context.getString(R.string.userConfig), true)
+        }
 
-            db.executeTransaction { realm ->
-                val user = realm.where(User::class.java).findFirst()
-                user ?: throw Exception("null user")
-                val secret = user.userSecret
-                secret ?: throw Exception("null user")
-                token = secret.token
-                id = secret.id
-            }
+        var isFirstTime = false
+        var oldUUIDExist = false
+        // default value of boolean variable is false
+        if (!sp.getBooleanValue(context.resources.getString(R.string.firstTime))) {
+
+            // if it is first time that user connect to server check if user installed app before
+            // by searching installation file in storage
+
+            oldUUIDExist = DeviceId.Installation.isAnyInstallationFile(context)
+            isFirstTime = true
+            sp.putBooleanValue(context.resources.getString(R.string.firstTime), true)
 
         }
 
+        val db = Realm.getInstance(RealmUtil().getConfiguration(context))
+        db.executeTransaction { realm ->
+            val user = realm.where(User::class.java).findFirst()
+            user ?: return@executeTransaction
+            val secret = user.userSecret
+            secret ?: return@executeTransaction
+            token = secret.token
+            id = secret.userId
+        }
+        db.close()
+
         val versionCode = BuildUtil().getVersionCode(context)
-        val di = Gson().toJson(DeviceInformation(context).get())
+        val deviceInformation = Gson().toJson(DeviceInformation(context).get())
 
         ApiClient().client
                 .create(ApiInterface::class.java)
                 .getServerStatus(versionCode,
                         token,
                         id,
+                        oldUUIDExist,
                         DeviceId.Installation.id(context),
-                        DeviceId.getAndroidId(context), di).enqueue(callback)
-
+                        DeviceId.getAndroidId(context), deviceInformation
+                        , isFirstTime)
+                .enqueue(callback)
     }
-
 
     private fun createUserDataBase(context: Context) {
         val conf = RealmConfiguration.Builder()

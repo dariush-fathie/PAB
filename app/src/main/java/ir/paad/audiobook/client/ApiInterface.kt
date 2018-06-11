@@ -2,26 +2,25 @@ package ir.paad.audiobook.client
 
 import ir.paad.audiobook.models.Config
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 
 interface ApiInterface {
 
-    @GET("update/{id}/{lat}/{lng}")
-    fun updateGeoLocation(@Path("id") autoId: Int
+    @GET("update/{userId}/{lat}/{lng}")
+    fun updateGeoLocation(@Path("userId") autoId: Int
                           , @Path("lat") lat: Double
                           , @Path("lng") lng: Double): Call<List<String>>
 
-    @POST("getConfig/{versionCode}")
-    fun getServerStatus(@Path("versionCode") versionCode: Int,
+    @FormUrlEncoded
+    @POST("getConfig")
+    fun getServerStatus(@Field("versionCode") versionCode: Int,
                         @Field("token") token: String,
                         @Field("userId") userId: String,
+                        @Field("uuidExist") uuidExist: Boolean,
                         @Field("uuid") uuid: String,
                         @Field("deviceId") deviceId: String,
-                        @Field("model") deviceModel: String): Call<Config>
-
+                        @Field("deviceModel") deviceModel: String,
+                        @Field("ft") firstTime: Boolean): Call<Config>
 
 }

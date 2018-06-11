@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
     private lateinit var mBottomSheetCallback: BottomSheetBehavior.BottomSheetCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        startActivity(Intent(this@MainActivity, SplashActivity::class.java))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         tbl_main.addOnTabSelectedListener(this)
@@ -123,8 +122,6 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         Log.e("tab", "select")
         addOrRemoveColorFilter(tab!!, true)
         loadFragments(tab.position)
-
-        addBadge(0)
 
     }
 

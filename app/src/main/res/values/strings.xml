@@ -16,5 +16,6 @@
     <string name="realm">.realm</string>
     <string name="search">جستجو</string>
     <string name="category">دسته بندی</string>
+    <string name="userConfig">uscf</string>
 
 </resources>
