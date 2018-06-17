@@ -1,52 +1,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_smallController"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:background="@color/yellow"
-    android:id="@+id/rl_smallController">
+    android:layout_height="36dp"
+    android:background="@color/white"
+    android:paddingBottom="4dp"
+    android:paddingEnd="8dp"
+    android:paddingStart="8dp"
+    android:paddingTop="4dp">
 
+    <!-- <android.support.v7.widget.AppCompatImageView
+         android:id="@+id/iv_playerThumb"
+         android:layout_width="48dp"
+         android:layout_height="48dp"
+         android:layout_alignParentEnd="true"
+         android:background="@color/blue1" />-->
     <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/iv_playerThumb"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:background="@color/blue1" />
+        android:padding="6dp"
+        android:id="@+id/iv_playPause"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerVertical="true"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_play_bold" />
 
-    <LinearLayout
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_playerTitle"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_toStartOf="@+id/iv_playerThumb"
-        android:gravity="center_vertical|end"
-        android:orientation="vertical"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp">
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="نظریه های استیون هاوکینگ"
-            android:textColor="@color/title1"
-            app:fontFamily="@font/yekan" />
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="فصل اول"
-            app:fontFamily="@font/yekan" />
-    </LinearLayout>
-
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/iv_play"
-        android:layout_width="48dp"
-        android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_gravity="center"
-        android:layout_toEndOf="@+id/iv_playList"
-        android:contentDescription="@null"
-        android:padding="10dp"
-        android:src="@drawable/ic_play" />
+        android:layout_toEndOf="@+id/iv_playPause"
+        android:layout_toStartOf="@+id/iv_closePlayer"
+        android:gravity="center_vertical"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:text="نظریه های استیون هاوکینگ"
+        android:textColor="@color/title1"
+        app:fontFamily="@font/yekan" />
 
     <android.support.v7.widget.AppCompatImageView
+        android:padding="6dp"
+        android:id="@+id/iv_closePlayer"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_delete_bold" />
+
+    <!--<android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_pause"
         android:layout_width="48dp"
         android:layout_height="match_parent"
@@ -56,14 +58,14 @@
         android:contentDescription="@null"
         android:padding="10dp"
         android:src="@drawable/ic_pause"
-        android:visibility="gone" />
+        android:visibility="gone" />-->
 
-    <android.support.v7.widget.AppCompatImageView
+    <!--<android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_playList"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentStart="true"
         android:padding="10dp"
-        android:src="@drawable/ic_play_list" />
+        android:src="@drawable/ic_play_list" />-->
 
 </RelativeLayout>

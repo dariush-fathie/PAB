@@ -3,7 +3,10 @@ package ir.paad.audiobook.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.os.Environment
 import android.provider.Settings
+import android.support.v4.content.ContextCompat
+import android.support.v4.os.EnvironmentCompat
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -63,7 +66,11 @@ object DeviceId {
         private const val INSTALLATION = "INSTALLATION"
 
         fun isAnyInstallationFile(context: Context) : Boolean{
-            val installation = File(context.filesDir, ".$INSTALLATION")
+            val docs = File(Environment.getExternalStoragePublicDirectory("Documents").path)
+            if (!docs.exists()) {
+                docs.mkdir()
+            }
+            val installation = File(Environment.getExternalStoragePublicDirectory("Documents"), ".$INSTALLATION")
             try {
                 if (installation.exists()) {
                     return true
@@ -77,7 +84,7 @@ object DeviceId {
         @Synchronized
         fun id(context: Context): String {
             if (sID == null) {
-                val installation = File(context.filesDir, ".$INSTALLATION")
+                val installation = File(Environment.getExternalStoragePublicDirectory("Documents"), ".$INSTALLATION")
                 try {
                     if (!installation.exists())
                         writeInstallationFile(installation)

@@ -10,4 +10,6 @@ class Colors(context: Context) {
     val colorPrimary = ContextCompat.getColor(context , R.color.colorPrimary)
     val white = ContextCompat.getColor(context , R.color.white)
     val transparent = ContextCompat.getColor(context , R.color.transparent)
+    val hintTextColor = ContextCompat.getColor(context , R.color.hintTextColor)
+    val semiTransparent = ContextCompat.getColor(context , R.color.semiTransparent)
 }

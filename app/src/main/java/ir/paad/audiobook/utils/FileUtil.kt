@@ -9,10 +9,10 @@ import java.security.NoSuchAlgorithmException
 
 class FileUtil {
 
-
     private val TAG = "MD5"
 
     fun checkMD5(md5: String, updateFile: File?): Boolean {
+
         if (TextUtils.isEmpty(md5) || updateFile == null) {
             Log.e(TAG, "MD5 string empty or updateFile null")
             return false
@@ -31,6 +31,7 @@ class FileUtil {
     }
 
     private fun calculateMD5(updateFile: File): String? {
+
         val digest: MessageDigest
         try {
             digest = MessageDigest.getInstance("MD5")
@@ -50,9 +51,11 @@ class FileUtil {
         val buffer = ByteArray(8192)
         var read: Int = 0
         try {
+
             while ({ read = `is`.read(buffer); read }() > 0) {
                 digest.update(buffer, 0, read)
             }
+
             val md5sum = digest.digest()
             val bigInt = BigInteger(1, md5sum)
             var output = bigInt.toString(16)

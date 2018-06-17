@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_slide"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/cv_slide"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/white">
 
-    <TextView
-        android:textStyle="bold"
-        android:textColor="@color/title1"
-        android:textSize="18sp"
-        android:layout_gravity="center"
-        android:text="#Slider item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/iv_slideImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_sliderTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="#Slider item"
+            android:textColor="@color/title1"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
 
 </android.support.v7.widget.CardView>

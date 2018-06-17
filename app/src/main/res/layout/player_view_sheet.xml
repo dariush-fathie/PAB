@@ -4,10 +4,10 @@
     android:id="@+id/cl_bottomSheetPlayerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="48dp"
     android:background="@color/white"
+    android:paddingBottom="46dp"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="96dp"
+    app:behavior_peekHeight="82dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <include layout="@layout/small_player_control" />
@@ -18,10 +18,10 @@
         android:layout_height="match_parent">
 
         <ir.paad.audiobook.customClass.CustomPlayerControlView
-            android:layout_alignParentBottom="true"
             android:id="@+id/exo_playerViewController"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 

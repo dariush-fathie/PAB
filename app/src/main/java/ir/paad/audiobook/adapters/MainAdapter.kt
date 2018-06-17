@@ -1,17 +1,17 @@
 package ir.paad.audiobook.adapters
 
 import android.content.Context
-import android.support.v7.widget.CardView
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ir.paad.audiobook.DetailActivity
 import ir.paad.audiobook.R
-import ir.paad.audiobook.utils.Converter
+import ir.paad.audiobook.models.BookModel
 
-class MainAdapter(ctx: Context) : RecyclerView.Adapter<MainAdapter.MainItemHolder>() {
+class MainAdapter(private val context: Context, private val books: ArrayList<BookModel>) : RecyclerView.Adapter<MainAdapter.MainItemHolder>() {
 
-    private val context = ctx
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainItemHolder {
         val item = LayoutInflater.from(context).inflate(R.layout.item_main, parent, false)
@@ -24,10 +24,26 @@ class MainAdapter(ctx: Context) : RecyclerView.Adapter<MainAdapter.MainItemHolde
 
 
     override fun getItemCount(): Int {
-        return 15
+        return books.size + 100
     }
 
 
-    inner class MainItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class MainItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        override fun onClick(v: View?) {
+            val i = Intent(context, DetailActivity::class.java)
+            i.putExtra(context.getString(R.string.productId), books.get(adapterPosition).id)
+            context.startActivity(i)
+        }
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+    }
+
+    fun notifyNewItemAdded(newBooks: ArrayList<BookModel>) {
+        books.addAll(newBooks)
+        notifyItemRangeInserted(itemCount - 1, newBooks.size)
+    }
 
 }

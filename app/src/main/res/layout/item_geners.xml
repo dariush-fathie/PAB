@@ -9,7 +9,6 @@
     android:paddingBottom="10dp"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
-    android:text="gener name"
     android:textColor="@color/b"
     android:textSize="14sp"
     app:fontFamily="@font/yekan" />

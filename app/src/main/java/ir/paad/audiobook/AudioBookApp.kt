@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager.CONNECTIVITY_ACTION
-import android.util.Log
 import com.onesignal.*
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -18,7 +17,6 @@ class AudioBookApp : Application(){
 
     override fun onCreate() {
         super.onCreate()
-
         // default realm database
         Realm.init(this)
         val conf = RealmConfiguration.Builder().name("database.realm").schemaVersion(1).build()
@@ -32,6 +30,8 @@ class AudioBookApp : Application(){
         startService(Intent(this , OneSignalIdObserver::class.java))
         registerForNetworkChangeEvents()
     }
+
+
 
     private fun registerForNetworkChangeEvents() {
         val networkStateChangeReceiver = NetworkStateReceiver()

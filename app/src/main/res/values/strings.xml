@@ -17,5 +17,8 @@
     <string name="search">جستجو</string>
     <string name="category">دسته بندی</string>
     <string name="userConfig">uscf</string>
+    <string name="queryType">queryType</string>
+    <string name="title">title</string>
+    <string name="productId">proId</string>
 
 </resources>

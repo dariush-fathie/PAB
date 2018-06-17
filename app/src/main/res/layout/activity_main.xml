@@ -13,21 +13,32 @@
         android:layout_height="match_parent">
 
         <FrameLayout
-            android:layout_marginBottom="48dp"
             android:id="@+id/fl_mainContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="46dp" />
 
-        <include layout="@layout/player_view_sheet" android:visibility="gone"/>
+        <View
+            android:id="@+id/view_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="2.5dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="82dp"
+            android:background="@drawable/gradient"
+            android:rotation="180" />
+
+        <include
+            layout="@layout/player_view_sheet"
+            android:visibility="visible" />
 
         <ir.paad.audiobook.customClass.CustomTabLayout
             android:id="@+id/tbl_main"
-            app:tabIndicatorHeight="0dp"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="46dp"
             android:layout_gravity="bottom"
             android:background="@color/colorPrimaryDark"
             app:tabGravity="fill"
+            app:tabIndicatorHeight="0dp"
             app:tabSelectedTextColor="@color/colorAccent"
             app:tabTextColor="@color/white">
 
@@ -45,12 +56,6 @@
                 android:icon="@drawable/ic_search"
                 android:text="@string/search" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/ti_myCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_category"
-                android:text="@string/category" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/ti_myLibrary"

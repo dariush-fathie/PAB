@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#6d435a</color>
     <color name="colorPrimaryDark">#3a3042</color>
     <color name="colorAccent">#FF9F1C</color>
@@ -15,14 +16,21 @@
     <color name="hintTextColor">#b98ca6</color>
 
     <color name="title1">#232621</color>
+
     <color name="blue1">#b1ede8</color>
     <color name="blue2">#340068</color>
     <color name="blue3">#16a8c7</color>
+    <color name="niceBlue">#673ab7</color>
+
     <color name="red1">#ff6978</color>
+    <color name="red2">#b93848</color>
+    <color name="red3">#ff0505</color>
+
+    <color name="semiTransparent">#d63d3a56</color>
+    <color name="orange1">#fc7753</color>
 
     <color name="yellow">#dbd56e</color>
     <color name="u">#f2efea</color>
-
 
 
 </resources>

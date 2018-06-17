@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -86,8 +87,8 @@ public class CustomPlayerControlView extends FrameLayout {
     private final View rewindButton;
     private final ImageView repeatToggleButton;
     private final View shuffleButton;
-    private final TextView durationView;
-    private final TextView positionView;
+    private final AppCompatTextView durationView;
+    private final AppCompatTextView positionView;
     private final TimeBar timeBar;
     private final StringBuilder formatBuilder;
     private final Formatter formatter;
@@ -152,7 +153,8 @@ public class CustomPlayerControlView extends FrameLayout {
     public CustomPlayerControlView(
             Context context, AttributeSet attrs, int defStyleAttr, AttributeSet playbackAttrs) {
         super(context, attrs, defStyleAttr);
-        int controllerLayoutId = R.layout.exo_player_control_view;
+        //int controllerLayoutId = R.layout.exo_player_control_view;
+        int controllerLayoutId = ir.paad.audiobook.R.layout.custom_control_play_back;
         rewindMs = DEFAULT_REWIND_MS;
         fastForwardMs = DEFAULT_FAST_FORWARD_MS;
         showTimeoutMs = DEFAULT_SHOW_TIMEOUT_MS;
