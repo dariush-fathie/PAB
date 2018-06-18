@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background2">
+
+
+
+    <android.support.v7.widget.AppCompatEditText
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/et_tel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rl_toolbar"
+        android:background="@drawable/rounded_edittext_states"
+        android:hint="شماره موبایل"
+        android:fontFamily="@font/yekan"
+        android:inputType="number"
+        android:maxLines="1"
+        android:padding="8dip"
+        android:textColor="#538350" />
+
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_reg_tel"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/et_tel"
+        android:layout_margin="22dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:maxLines="1"
+        android:padding="8dip"
+        android:text="ثبت"
+        android:fontFamily="@font/yekan"
+        android:textColor="@color/title1"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+</RelativeLayout>

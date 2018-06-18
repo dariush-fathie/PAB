@@ -38,7 +38,7 @@ class PlayerService : Service() {
     val notificationId = 1078
 
     private lateinit var mBinder: MyBinder
-
+    private lateinit var dispatcher:CustomControlDispatcher
     var player: SimpleExoPlayer? = null
     private lateinit var mNotification: Notification
     private var playerNotificationManager: PlayerNotificationManager? = null
@@ -52,6 +52,10 @@ class PlayerService : Service() {
         return mBinder
     }
 
+
+    fun getDispatcher() : CustomControlDispatcher{
+        return dispatcher
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -118,13 +122,15 @@ class PlayerService : Service() {
             }
         })
 
+        dispatcher = CustomControlDispatcher()
+
         playerNotificationManager!!.setStopAction(PlayerNotificationManager.ACTION_STOP)
         playerNotificationManager!!.setOngoing(false)
         playerNotificationManager!!.setSmallIcon(R.drawable.ic_music)
         playerNotificationManager!!.setColorized(true)
         playerNotificationManager!!.setColor(Colors(this).colorPrimary)
         playerNotificationManager!!.setUseNavigationActions(false)
-        playerNotificationManager!!.setControlDispatcher(CustomControlDispatcher())
+        playerNotificationManager!!.setControlDispatcher(dispatcher)
         //playerNotificationManager!!.setPlayer(player)
 
 
@@ -155,6 +161,10 @@ class PlayerService : Service() {
             .build()
 
     var focusFlag = false
+
+    /**
+     * when you want to play you most to gain focus
+     */
 
     fun play() {
         val tag1 = "FocusHelper"

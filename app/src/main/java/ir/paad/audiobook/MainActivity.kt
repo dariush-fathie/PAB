@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
         val b = service as PlayerService.MyBinder
         mPlayerService = b.playerService
         exo_playerViewController.player = mPlayerService.player
-
+        exo_playerViewController.setControlDispatcher(mPlayerService.getDispatcher())
         changePlayerImage(mPlayerService.player!!.playWhenReady)
         showNotificationPlayer()
         mPlayerService.player!!.addListener(PlayerStateListener(object : PlayerStateListener.OnPlayerStateChanged {
