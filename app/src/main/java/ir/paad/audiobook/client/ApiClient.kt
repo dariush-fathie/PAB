@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiClient {
 
-    private val baseUrl = "http://services.taknobat.ir/"
+    private val baseUrl = "http://unary.ir/paad/"
     private var retrofit: Retrofit? = null
 
     val client: Retrofit

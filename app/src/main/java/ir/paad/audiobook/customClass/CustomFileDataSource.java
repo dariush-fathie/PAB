@@ -82,7 +82,7 @@ public final class CustomFileDataSource implements DataSource {
 
         Cipher cipher = null;
         try {
-            cipher = Cipher.getInstance("AES/CBC/NoPadding");
+            cipher = Cipher.getInstance("AES/CTR/NoPadding");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (NoSuchPaddingException e) {

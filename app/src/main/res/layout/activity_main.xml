@@ -15,8 +15,7 @@
         <FrameLayout
             android:id="@+id/fl_mainContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="46dp" />
+            android:layout_height="match_parent"/>
 
         <View
             android:id="@+id/view_gradient"

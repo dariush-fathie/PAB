@@ -4,6 +4,7 @@ import ir.paad.audiobook.client.ApiClient
 import ir.paad.audiobook.client.ApiInterface
 import ir.paad.audiobook.models.BookModel
 import org.json.JSONObject
+import retrofit2.Call
 import retrofit2.Callback
 
 class BooksDownloader {
@@ -25,6 +26,7 @@ class BooksDownloader {
 
         // default type is -1 it's get item from database with no condition
         var queryType = -1
+        var phrase = ""
 
         fun convertToJson(): String {
             val option = JSONObject()
@@ -36,6 +38,7 @@ class BooksDownloader {
             }
 
             option.put("queryType", queryType)
+            option.put("phrase", phrase)
             return option.toString()
         }
 
@@ -58,17 +61,22 @@ class BooksDownloader {
             option.offset = listSize
         }
 
+        fun phrase(searchedPhrase: String) = apply {
+            option.phrase = searchedPhrase
+        }
+
         fun queryType(queryType: Int) = apply {
             option.queryType = queryType
         }
 
 
-        fun download(callback: Callback<List<BookModel>>) {
-            ApiClient()
+        fun download(callback: Callback<List<BookModel>>): Call<List<BookModel>> {
+            val call = ApiClient()
                     .client
                     .create(ApiInterface::class.java)
                     .getItems(option.convertToJson())
-                    .enqueue(callback)
+            call.enqueue(callback)
+            return call
         }
     }
 

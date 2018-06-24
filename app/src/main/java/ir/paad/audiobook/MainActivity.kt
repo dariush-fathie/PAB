@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
@@ -14,8 +15,10 @@ import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.AppCompatTextView
+import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import com.andrognito.flashbar.Flashbar
 import ir.paad.audiobook.customClass.BadgeDrawable
 import ir.paad.audiobook.customClass.PlayerStateListener
@@ -32,7 +35,6 @@ import kotlinx.android.synthetic.main.player_view_sheet.*
 import kotlinx.android.synthetic.main.small_player_control.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-
 
 
 class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, ServiceConnection, View.OnClickListener {
@@ -65,16 +67,19 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
 
         tbl_main.addOnTabSelectedListener(this)
 
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        /*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             val w = window
-            //w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.navigationBarColor = Colors(this).semiTransparent
+            //window.navigationBarColor = Colors(this).semiTransparent
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        }*/
+        }
+        */
 
         /*val decorView = window.decorView
         val uiOption = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -113,9 +118,14 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
                         .build()
                         .show()
             }
-        }, 2500)
+        }, 5000)
 
-
+        val aes = Base64.encode("AES/CTR/NoPadding".toByteArray(Charsets.UTF_8), Base64.DEFAULT)
+        aes.forEach { byte ->
+            Log.e("byte", "$byte")
+        }
+        Log.e("AES ENCODED", aes.toString())
+        Log.e("AED DECODES", Base64.decode(aes, Base64.DEFAULT).toString().toByteArray(Charsets.UTF_8).toString())
         // add [HomeFragment] to backStack
         loadFragments(0)
         //addBadge(0)
@@ -157,7 +167,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
     @Subscribe
     fun onPlayerStop(playerEvent: PlayerEvent) {
         // todo player stop ... do something
-        ToastUtil.showShortToast(this , "player stop")
+        ToastUtil.showShortToast(this, "player stop")
     }
 
     override fun onDestroy() {

@@ -59,18 +59,24 @@ class PlayerService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+
         mBinder = MyBinder()
-        val file = File(Environment.getExternalStorageDirectory(), "a.mp3")
-        val file2 = File(Environment.getExternalStorageDirectory(), "b.mp3")
+
+        val file = File(Environment.getExternalStorageDirectory(), "server.mp3")
+        val file2 = File(Environment.getExternalStorageDirectory(), "android.mp3")
 
         player = ExoPlayerFactory.newSimpleInstance(this, DefaultTrackSelector())
         val factory = CustomFileDataSourceFactory()
+
         val concatenatingMediaSource = ConcatenatingMediaSource()
-        var mediaSource = ExtractorMediaSource.Factory(factory)
-                .createMediaSource(Uri.parse(file.path))
+        val mediaSource = ExtractorMediaSource.Factory(factory).createMediaSource(Uri.parse(file.path))
+
         concatenatingMediaSource.addMediaSource(mediaSource)
-        mediaSource = ExtractorMediaSource.Factory(factory).createMediaSource(Uri.parse(file2.path))
-        concatenatingMediaSource.addMediaSource(mediaSource)
+
+        val factory1 = CustomFileDataSourceFactory()
+        val mediaSource1 = ExtractorMediaSource.Factory(factory1).createMediaSource(Uri.parse(file2.path))
+
+        concatenatingMediaSource.addMediaSource(mediaSource1)
 
         player!!.prepare(concatenatingMediaSource)
         //player!!.playWhenReady = true
@@ -202,7 +208,6 @@ class PlayerService : Service() {
 
                             }))
                             .setWillPauseWhenDucked(true)
-                            .setAcceptsDelayedFocusGain(true)
                             .build()
             )
         }

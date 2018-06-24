@@ -1,5 +1,6 @@
 package ir.paad.audiobook.adapters
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -9,17 +10,25 @@ import android.view.ViewGroup
 import ir.paad.audiobook.DetailActivity
 import ir.paad.audiobook.R
 import ir.paad.audiobook.models.BookModel
+import java.util.*
 
 class MainAdapter(private val context: Context, private val books: ArrayList<BookModel>) : RecyclerView.Adapter<MainAdapter.MainItemHolder>() {
 
+    private var i = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainItemHolder {
         val item = LayoutInflater.from(context).inflate(R.layout.item_main, parent, false)
         return MainItemHolder(item)
     }
 
-    override fun onBindViewHolder(holder: MainItemHolder, position: Int) {
 
+    override fun onBindViewHolder(holder: MainItemHolder, position: Int) {
+        if (position > i) {
+            setAnimation(holder.itemView, true)
+        } else {
+            setAnimation(holder.itemView, false)
+        }
+        i = holder.adapterPosition
     }
 
 
@@ -39,6 +48,17 @@ class MainAdapter(private val context: Context, private val books: ArrayList<Boo
             itemView.setOnClickListener(this)
         }
 
+    }
+
+
+    private fun setAnimation(viewToAnimate: View, scrollToBottom: Boolean) {
+        val random = Random()
+        var a = ObjectAnimator.ofFloat(viewToAnimate, "translationY", random.nextInt(200).toFloat(), 0f)
+        if (!scrollToBottom) {
+            a = ObjectAnimator.ofFloat(viewToAnimate, "translationY", -random.nextInt(200).toFloat(), 0f)
+        }
+        a.duration = Random().nextInt(250).toLong()
+        a.start()
     }
 
     fun notifyNewItemAdded(newBooks: ArrayList<BookModel>) {

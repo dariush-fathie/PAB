@@ -34,6 +34,7 @@ class GenersAdapter(private val context: Context, private val geners: Array<Gene
             val i = Intent(context, ListActivity::class.java)
             i.putExtra(context.getString(R.string.queryType), geners.get(adapterPosition).queryId)
             i.putExtra(context.getString(R.string.title), geners.get(adapterPosition).title)
+            i.putExtra(context.getString(R.string.position), adapterPosition)
             context.startActivity(i)
         }
 

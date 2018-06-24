@@ -20,5 +20,6 @@
     <string name="queryType">queryType</string>
     <string name="title">title</string>
     <string name="productId">proId</string>
+    <string name="position">position</string>
 
 </resources>
