@@ -16,6 +16,12 @@
     <color name="hintTextColor">#b98ca6</color>
 
     <color name="title1">#232621</color>
+    <color name="title2">#FF1B1A19</color>
+    <color name="subtitle1">#FFA3A2A3</color>
+    <color name="subtitle2">#a2a1a2</color>
+    <color name="subtitle3">#d3d5d8</color>
+
+    <color name="tagBack">#FFD7D8DB</color>
 
     <color name="blue1">#b1ede8</color>
     <color name="blue2">#340068</color>
@@ -31,6 +37,10 @@
 
     <color name="yellow">#dbd56e</color>
     <color name="u">#f2efea</color>
+
+
+    <color name="color_divider_line_gray">#e2e2e2</color>
+    <color name="color_gray_light_content_text">#5d5d5d</color>
 
 
 </resources>

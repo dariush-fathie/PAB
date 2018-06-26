@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
@@ -18,7 +17,6 @@ import android.support.v7.widget.AppCompatTextView
 import android.util.Base64
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import com.andrognito.flashbar.Flashbar
 import ir.paad.audiobook.customClass.BadgeDrawable
 import ir.paad.audiobook.customClass.PlayerStateListener
@@ -29,6 +27,7 @@ import ir.paad.audiobook.fragments.SearchFragment
 import ir.paad.audiobook.models.events.PlayerEvent
 import ir.paad.audiobook.services.PlayerService
 import ir.paad.audiobook.utils.Colors
+import ir.paad.audiobook.utils.Converter
 import ir.paad.audiobook.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.player_view_sheet.*
@@ -57,13 +56,9 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
     private lateinit var mBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var mBottomSheetCallback: BottomSheetBehavior.BottomSheetCallback
 
-    lateinit var mTbl: TabLayout
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //mTbl = tbl_main
 
         tbl_main.addOnTabSelectedListener(this)
 
@@ -247,10 +242,20 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
 
     private fun hideSmallPlayer() {
         cl_bottomSheetPlayerView.visibility = View.INVISIBLE
+        hideSmallPlayerShadow()
     }
 
     private fun showSmallPlayer() {
         cl_bottomSheetPlayerView.visibility = View.VISIBLE
+        showSmallPlayerShadow()
+    }
+
+    private fun hideSmallPlayerShadow() {
+        view_gradient.visibility = View.GONE
+    }
+
+    private fun showSmallPlayerShadow() {
+        view_gradient.visibility = View.VISIBLE
     }
 
     private fun closeBottomSheet() {
@@ -268,15 +273,21 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
     }
 
     private fun getBottomSheetCallback(): BottomSheetBehavior.BottomSheetCallback {
+        val tabLayoutContainerHeight = Converter.pxFromDp(this, 55f)
         mBottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 rl_smallController.alpha = 1 - slideOffset
                 rl_mainController.alpha = slideOffset
+                cv_tblContainer.translationY = slideOffset * tabLayoutContainerHeight
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    rl_smallController.visibility = View.GONE
+                } else {
+                    rl_smallController.visibility = View.VISIBLE
+                }
             }
         }
         return mBottomSheetCallback
@@ -359,14 +370,19 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 1) {
-            supportFragmentManager.popBackStackImmediate()
-            tbl_main.getTabAt(0)?.select()
+        if (mBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            closeBottomSheet()
         } else {
-            // todo show exit dialog
-            finish()
+            if (supportFragmentManager.backStackEntryCount > 1) {
+                supportFragmentManager.popBackStackImmediate()
+                tbl_main.getTabAt(0)?.select()
+            } else {
+                // todo show exit dialog
+                finish()
+            }
         }
     }
+
 
     fun addBadge(tabPosition: Int) {
         tabBadgeImageViewAtPosition(tabPosition).setImageDrawable(createBadgeDrawable(5))

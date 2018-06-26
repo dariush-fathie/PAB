@@ -4,10 +4,10 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    android:id="@+id/cl_list">
+    android:background="@color/colorPrimaryDark">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/abl1"
@@ -34,6 +34,7 @@
                 app:layout_collapseParallaxMultiplier="0.4" />
 
             <RelativeLayout
+                android:id="@+id/rl_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:background="@color/colorPrimaryDark"
@@ -52,12 +53,12 @@
                     app:fontFamily="@font/yekan" />
 
                 <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_sync"
-                    android:layout_width="46dp"
+                    android:id="@+id/iv_backNav"
+                    android:layout_width="54dp"
                     android:layout_height="46dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/menu_item_selector"
-                    android:padding="11dp"
+                    android:padding="12dp"
                     android:src="@drawable/ic_back"
                     app:tint="@color/white" />
 

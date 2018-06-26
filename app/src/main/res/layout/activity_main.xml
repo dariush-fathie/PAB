@@ -15,7 +15,7 @@
         <FrameLayout
             android:id="@+id/fl_mainContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <View
             android:id="@+id/view_gradient"
@@ -30,46 +30,69 @@
             layout="@layout/player_view_sheet"
             android:visibility="visible" />
 
-        <ir.paad.audiobook.customClass.CustomTabLayout
-            android:id="@+id/tbl_main"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_tblContainer"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
+            android:layout_height="48dp"
             android:layout_gravity="bottom"
-            android:background="@color/colorPrimaryDark"
-            app:tabGravity="fill"
-            app:tabIndicatorHeight="0dp"
-            app:tabSelectedTextColor="@color/colorAccent"
-            app:tabTextColor="@color/white">
+            android:layout_marginBottom="-2dp"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            app:cardCornerRadius="10dp">
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/ti_home"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_home"
-                android:text="@string/home" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/ti_mySearch"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_search"
-                android:text="@string/search" />
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="@color/colorPrimaryDark"
+                    app:cardCornerRadius="1dp"
+                    app:cardElevation="0dp" />
 
+                <ir.paad.audiobook.customClass.CustomTabLayout
+                    android:id="@+id/tbl_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/colorPrimaryDark"
+                    app:tabGravity="fill"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabSelectedTextColor="@color/colorAccent"
+                    app:tabTextColor="@color/white">
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/ti_myLibrary"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_my_books"
-                android:text="@string/myLibrary" />
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/ti_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/ic_home"
+                        android:text="@string/home" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/ti_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_profile"
-                android:text="@string/profile" />
-        </ir.paad.audiobook.customClass.CustomTabLayout>
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/ti_mySearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/ic_search"
+                        android:text="@string/search" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/ti_myLibrary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/ic_my_books"
+                        android:text="@string/myLibrary" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/ti_profile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:icon="@drawable/ic_profile"
+                        android:text="@string/profile" />
+                </ir.paad.audiobook.customClass.CustomTabLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
 
     </android.support.design.widget.CoordinatorLayout>
 

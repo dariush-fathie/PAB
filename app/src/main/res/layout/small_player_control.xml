@@ -9,6 +9,12 @@
     android:paddingStart="8dp"
     android:paddingTop="4dp">
 
+    <View
+        android:layout_width="60dp"
+        android:layout_height="4dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/drag_handle" />
+
     <!-- <android.support.v7.widget.AppCompatImageView
          android:id="@+id/iv_playerThumb"
          android:layout_width="48dp"
@@ -16,12 +22,12 @@
          android:layout_alignParentEnd="true"
          android:background="@color/blue1" />-->
     <android.support.v7.widget.AppCompatImageView
-        android:padding="6dp"
         android:id="@+id/iv_playPause"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_centerVertical="true"
         android:contentDescription="@null"
+        android:padding="6dp"
         android:src="@drawable/ic_play_bold" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -36,16 +42,17 @@
         android:paddingStart="8dp"
         android:text="نظریه های استیون هاوکینگ"
         android:textColor="@color/title1"
+        android:textSize="12sp"
         app:fontFamily="@font/yekan" />
 
     <android.support.v7.widget.AppCompatImageView
-        android:padding="6dp"
         android:id="@+id/iv_closePlayer"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:contentDescription="@null"
+        android:padding="6dp"
         android:src="@drawable/ic_delete_bold" />
 
     <!--<android.support.v7.widget.AppCompatImageView

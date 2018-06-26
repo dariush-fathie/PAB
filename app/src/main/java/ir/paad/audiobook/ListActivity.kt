@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.animation.AccelerateInterpolator
 import ir.paad.audiobook.adapters.MainAdapter
@@ -26,9 +27,16 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class ListActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
+class ListActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.rl_toolbar -> return
+            R.id.iv_backNav -> finish()
+        }
+    }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+
         val alpha = (Math.abs(verticalOffset).toFloat() / appBarLayout!!.totalScrollRange.toFloat())
         tv_title.alpha = alpha
         tv_title.scaleX = Math.max(alpha, 0.5f)
@@ -36,7 +44,7 @@ class ListActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
         rv_generPicker.alpha = 1 - alpha
     }
 
-    var clickedPosition = 0
+    private var clickedPosition = 0
     var queryType = 0
     var title = ""
     lateinit var mainListAdapter: MainAdapter
@@ -53,8 +61,8 @@ class ListActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
+        setClickListener()
         loadGenerPicker()
-
         if (intent != null) {
             queryType = intent.getIntExtra(resources.getString(R.string.queryType), -1)
             title = intent.getStringExtra(resources.getString(R.string.title))
@@ -64,6 +72,10 @@ class ListActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
         abl1.addOnOffsetChangedListener(this)
     }
 
+    private fun setClickListener() {
+        rl_toolbar.setOnClickListener(this)
+        iv_backNav.setOnClickListener(this)
+    }
 
     private fun loadGenerPicker() {
         // todo load titles from realm
@@ -110,9 +122,6 @@ class ListActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
                         snapedPosition = newSnapPosition
                         if (snapedPosition != -1) {
                             newGenerSelected(snapedPosition)
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                createRevealAnimation()
-                            }
                         }
                     }
                     // todo get title from realm
@@ -146,6 +155,7 @@ class ListActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
         download()
     }
 
+    // post scroll to position with delay
     private fun scrollToGenerPosition(position: Int) {
         Handler().postDelayed({
             runOnUiThread {
@@ -163,7 +173,7 @@ class ListActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
                     }
                 }
             }
-        }, 200)
+        }, 100)
     }
 
     private var downloading = false
@@ -230,6 +240,10 @@ class ListActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedListener {
                 4))
         mainListAdapter = MainAdapter(context = this, books = books)
         rv_list.adapter = mainListAdapter
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            createRevealAnimation()
+        }
     }
 
     // prevent from add two or more decoration to mainList

@@ -22,4 +22,13 @@
     <string name="productId">proId</string>
     <string name="position">position</string>
 
+
+
+    <string name="expand">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد.</string>
+    <string name="shrink">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="tips">This is a custom TextView that can be expanded with a smooth transition animation,you can set the number of lines to expand,change its icon or text and so on\n</string>
+    <string name="tips_short">Hello there,i am a short text for test</string>
+    <string name="go_to_normal_mode">go to normal mode</string>
+    <string name="go_to_recycler_view_mode">go to recycler view mode</string>
+
 </resources>
