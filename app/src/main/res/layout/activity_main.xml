@@ -18,7 +18,7 @@
             android:layout_height="match_parent" />
 
         <View
-            android:id="@+id/view_gradient"
+            android:id="@+id/view_gradient1"
             android:layout_width="match_parent"
             android:layout_height="2.5dp"
             android:layout_gravity="bottom"

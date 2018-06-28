@@ -10,6 +10,7 @@
     <color name="background">#FFF9FAFB</color>
     <color name="background1">#FFF7F8FA</color>
     <color name="background2">#eff0f1</color>
+    <color name="background2_transparent">#83eff0f1</color>
 
     <color name="b">#403d58</color>
     <color name="textColor">#6D435A</color>
@@ -17,8 +18,9 @@
 
     <color name="title1">#232621</color>
     <color name="title2">#FF1B1A19</color>
+
     <color name="subtitle1">#FFA3A2A3</color>
-    <color name="subtitle2">#a2a1a2</color>
+    <color name="subtitle2">#454341</color>
     <color name="subtitle3">#d3d5d8</color>
 
     <color name="tagBack">#FFD7D8DB</color>

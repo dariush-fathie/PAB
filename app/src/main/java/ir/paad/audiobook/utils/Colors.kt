@@ -12,4 +12,5 @@ class Colors(context: Context) {
     val transparent = ContextCompat.getColor(context , R.color.transparent)
     val hintTextColor = ContextCompat.getColor(context , R.color.hintTextColor)
     val semiTransparent = ContextCompat.getColor(context , R.color.semiTransparent)
+    val background2Transparent = ContextCompat.getColor(context , R.color.background2_transparent)
 }

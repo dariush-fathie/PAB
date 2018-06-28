@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import ir.paad.audiobook.R
 import ir.paad.audiobook.customClass.ResizableCustomView
 import ir.paad.audiobook.fragments.MyLibraryFragment
-import kotlinx.android.synthetic.main.fragment_introduction.*
+import kotlinx.android.synthetic.main.fragment_detail_introduction.*
 
 
 class IntroductionFragment : Fragment() {
@@ -24,7 +24,7 @@ class IntroductionFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_introduction, container, false)
+        return inflater.inflate(R.layout.fragment_detail_introduction, container, false)
     }
 
 

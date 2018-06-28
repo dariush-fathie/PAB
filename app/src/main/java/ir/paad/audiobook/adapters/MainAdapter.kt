@@ -2,19 +2,23 @@ package ir.paad.audiobook.adapters
 
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ir.paad.audiobook.DetailActivity
 import ir.paad.audiobook.R
+import ir.paad.audiobook.interfaces.OnItemClick
 import ir.paad.audiobook.models.BookModel
 import java.util.*
 
-class MainAdapter(private val context: Context, private val books: ArrayList<BookModel>) : RecyclerView.Adapter<MainAdapter.MainItemHolder>() {
+class MainAdapter(val context: Context, val books: ArrayList<BookModel>) : RecyclerView.Adapter<MainAdapter.MainItemHolder>() {
 
     private var i = -1
+    private lateinit var clickDispatcher: OnItemClick
+
+    fun setOnItemClickListener(i: OnItemClick) = apply{
+        clickDispatcher = i
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainItemHolder {
         val item = LayoutInflater.from(context).inflate(R.layout.item_main, parent, false)
@@ -39,9 +43,11 @@ class MainAdapter(private val context: Context, private val books: ArrayList<Boo
 
     inner class MainItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         override fun onClick(v: View?) {
-            val i = Intent(context, DetailActivity::class.java)
-            i.putExtra(context.getString(R.string.productId), books.get(adapterPosition).id)
-            context.startActivity(i)
+            if (this@MainAdapter::clickDispatcher.isInitialized) {
+                clickDispatcher.onClick(this@MainAdapter::class.java.name, adapterPosition)
+
+            }
+
         }
 
         init {

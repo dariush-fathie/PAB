@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import ir.paad.audiobook.R
 import ir.paad.audiobook.adapters.GridAdapter
 import ir.paad.audiobook.fragments.MyLibraryFragment
-import kotlinx.android.synthetic.main.fragment_comment.*
+import kotlinx.android.synthetic.main.fragment_detail_comment.*
 
 
 class CommentFragment : Fragment() {
@@ -27,7 +27,7 @@ class CommentFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_comment, container, false)
+        return inflater.inflate(R.layout.fragment_detail_comment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

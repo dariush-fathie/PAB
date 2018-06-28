@@ -76,17 +76,17 @@ class SplashActivity : AppCompatActivity() {
      */
     private fun saveTemplate(template: Template) {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction({ db ->
+        realm.executeTransaction { db ->
             db.where(Template::class.java).findAll().deleteAllFromRealm()
             db.insertOrUpdate(template)
-        })
+        }
         realm.close()
         Handler().postDelayed({
             runOnUiThread {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
-        }, 2500)
+        }, 100)
     }
 
     private fun config() {

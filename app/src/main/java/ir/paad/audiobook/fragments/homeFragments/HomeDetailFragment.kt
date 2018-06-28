@@ -1,25 +1,41 @@
-package ir.paad.audiobook
+package ir.paad.audiobook.fragments.homeFragments
 
+import android.content.Context
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import ir.paad.audiobook.R
 import ir.paad.audiobook.fragments.detailFragments.CommentFragment
 import ir.paad.audiobook.fragments.detailFragments.ContentFragment
 import ir.paad.audiobook.fragments.detailFragments.IntroductionFragment
-import kotlinx.android.synthetic.main.activity_detail.*
+import ir.paad.audiobook.utils.Colors
+import kotlinx.android.synthetic.main.fragment_home_detail.*
 
-class DetailActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+
+class HomeDetailFragment : Fragment(), TabLayout.OnTabSelectedListener, AppBarLayout.OnOffsetChangedListener, View.OnClickListener, FragmentManager.OnBackStackChangedListener {
+    override fun onBackStackChanged() {
+        Log.e("detailFragment", "${childFragmentManager.backStackEntryCount}")
+    }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.iv_backNav -> {
-                finish()
+                //finish()
             }
             R.id.iv_mark -> {
                 mark()
+            }
+            R.id.btn_buy -> {
+                tbl_detail.getTabAt(0)?.select()
+                abl_detail.setExpanded(false, true)
             }
         }
     }
@@ -28,37 +44,50 @@ class DetailActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, App
 
     private fun mark() {
         if (isMarked) {
+            iv_mark.clearColorFilter()
             iv_mark.setImageResource(R.drawable.ic_bookmark)
         } else {
+            iv_mark.setColorFilter(Colors(activity as Context).colorAccent, PorterDuff.Mode.SRC_IN)
             iv_mark.setImageResource(R.drawable.ic_bookmark_filled)
         }
         isMarked = !isMarked
     }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-        if (verticalOffset == 0) {
-            view_gradient.visibility = View.GONE
-        } else {
+        if (Math.abs(verticalOffset) == appBarLayout?.totalScrollRange) {
             view_gradient.visibility = View.VISIBLE
+        } else {
+            view_gradient.visibility = View.GONE
         }
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_home_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setListeners()
+        tintFabPlay()
         tbl_detail.addOnTabSelectedListener(this)
         tbl_detail.getTabAt(2)?.select()
         abl_detail.addOnOffsetChangedListener(this)
+        childFragmentManager.addOnBackStackChangedListener(this)
     }
 
 
     private fun setListeners() {
         iv_backNav.setOnClickListener(this)
         iv_mark.setOnClickListener(this)
+        btn_buy.setOnClickListener(this)
     }
 
+    private fun tintFabPlay() {
+        var drawable = fab_play.drawable
+        drawable = DrawableCompat.wrap(drawable)
+        DrawableCompat.setTint(drawable, Colors(activity as Context).colorPrimary)
+    }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
     }
@@ -70,14 +99,13 @@ class DetailActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, App
         loadFragments(tab?.position!!)
     }
 
-
     private fun loadFragments(position: Int) {
         popUpBackStack()
         when (position) {
             2 -> {
-                if (supportFragmentManager.backStackEntryCount == 0) {
+                if (childFragmentManager.backStackEntryCount == 0) {
                     Log.e("sdfs", "$position")
-                    supportFragmentManager.beginTransaction()
+                    childFragmentManager.beginTransaction()
                             .add(R.id.fl_detailContainer, IntroductionFragment())
                             .addToBackStack("intro")
                             .commit()
@@ -85,7 +113,7 @@ class DetailActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, App
                 return
             }
             1 -> {
-                supportFragmentManager.beginTransaction()
+                childFragmentManager.beginTransaction()
                         .add(R.id.fl_detailContainer, CommentFragment())
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         .addToBackStack("comment")
@@ -93,18 +121,18 @@ class DetailActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, App
             }
 
             0 -> {
-                supportFragmentManager.beginTransaction()
+                childFragmentManager.beginTransaction()
                         .add(R.id.fl_detailContainer, ContentFragment())
                         .addToBackStack("content")
                         .commit()
             }
         }
-        Log.e("backStackCount", "${supportFragmentManager.backStackEntryCount}#")
+        Log.e("backStackCount", "${childFragmentManager.backStackEntryCount}#")
     }
 
     private fun popUpBackStack() {
-        while (supportFragmentManager.backStackEntryCount > 1) {
-            supportFragmentManager.popBackStackImmediate()
+        while (childFragmentManager.backStackEntryCount > 1) {
+            childFragmentManager.popBackStackImmediate()
         }
     }
 

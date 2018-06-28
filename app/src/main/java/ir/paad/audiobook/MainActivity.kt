@@ -6,24 +6,24 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.Handler
 import android.os.IBinder
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.TabLayout
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.AppCompatTextView
 import android.util.Base64
 import android.util.Log
 import android.view.View
-import com.andrognito.flashbar.Flashbar
 import ir.paad.audiobook.customClass.BadgeDrawable
 import ir.paad.audiobook.customClass.PlayerStateListener
 import ir.paad.audiobook.fragments.HomeFragment
 import ir.paad.audiobook.fragments.MyLibraryFragment
 import ir.paad.audiobook.fragments.ProfileFragment
 import ir.paad.audiobook.fragments.SearchFragment
+import ir.paad.audiobook.interfaces.IOnBackPressed
 import ir.paad.audiobook.models.events.PlayerEvent
 import ir.paad.audiobook.services.PlayerService
 import ir.paad.audiobook.utils.Colors
@@ -36,7 +36,17 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
 
-class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, ServiceConnection, View.OnClickListener {
+class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, ServiceConnection, View.OnClickListener, FragmentManager.OnBackStackChangedListener {
+    override fun onBackStackChanged() {
+        Log.e("mainActivity", "${supportFragmentManager.backStackEntryCount}")
+    }
+
+    private lateinit var iOnBackPressed: IOnBackPressed
+
+    fun setOnBackPressed(i: IOnBackPressed) {
+        this.iOnBackPressed = i
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.iv_playPause -> {
@@ -48,10 +58,8 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
             R.id.cl_bottomSheetPlayerView -> {
                 onPlayerClick()
             }
-
         }
     }
-
 
     private lateinit var mBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var mBottomSheetCallback: BottomSheetBehavior.BottomSheetCallback
@@ -97,24 +105,6 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
             }
         }*/
 
-        Handler().postDelayed({
-            runOnUiThread {
-                Flashbar.Builder(this)
-                        .gravity(Flashbar.Gravity.TOP)
-                        .title("\n\n Hello World!")
-                        .titleSizeInSp(18f)
-                        .messageAppearance(R.style.CustomTextStyle)
-                        .message("\n " + "سلام داریوش جان" +
-                                "نسخه جدید برنامه منتشر شده میخوایی نصب کنی ؟" + "\n ")
-                        .backgroundColorRes(R.color.colorPrimary)
-                        .negativeActionText("فعلا نه")
-                        .positiveActionText("چرا که نه")
-                        .enableSwipeToDismiss()
-                        .build()
-                        .show()
-            }
-        }, 5000)
-
         val aes = Base64.encode("AES/CTR/NoPadding".toByteArray(Charsets.UTF_8), Base64.DEFAULT)
         aes.forEach { byte ->
             Log.e("byte", "$byte")
@@ -125,8 +115,10 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
         loadFragments(0)
         //addBadge(0)
         initBottomSheet()
-        //startService(Intent(this, PlayerService::class.java))
         setListeners()
+
+        supportFragmentManager.addOnBackStackChangedListener(this)
+
     }
 
     private fun setListeners() {
@@ -157,7 +149,6 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
         }
         super.onStop()
     }
-
 
     @Subscribe
     fun onPlayerStop(playerEvent: PlayerEvent) {
@@ -251,11 +242,11 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
     }
 
     private fun hideSmallPlayerShadow() {
-        view_gradient.visibility = View.GONE
+        view_gradient1.visibility = View.GONE
     }
 
     private fun showSmallPlayerShadow() {
-        view_gradient.visibility = View.VISIBLE
+        view_gradient1.visibility = View.VISIBLE
     }
 
     private fun closeBottomSheet() {
@@ -373,12 +364,13 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
         if (mBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             closeBottomSheet()
         } else {
-            if (supportFragmentManager.backStackEntryCount > 1) {
-                supportFragmentManager.popBackStackImmediate()
-                tbl_main.getTabAt(0)?.select()
+            if (tbl_main.selectedTabPosition == 0) {
+                iOnBackPressed.backPressed()
             } else {
-                // todo show exit dialog
-                finish()
+                if (supportFragmentManager.backStackEntryCount > 1) {
+                    supportFragmentManager.popBackStackImmediate()
+                    tbl_main.getTabAt(0)?.select()
+                }
             }
         }
     }
@@ -412,3 +404,4 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
 
 
 }
+

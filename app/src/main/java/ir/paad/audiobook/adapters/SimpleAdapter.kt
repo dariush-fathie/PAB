@@ -12,9 +12,9 @@ import ir.paad.audiobook.interfaces.OnItemClick
 
 class SimpleAdapter(private val context: Context, private val titles: ArrayList<String>) : RecyclerView.Adapter<SimpleAdapter.SimpleItemHolder>() {
 
-    var clickDispatcher:OnItemClick? = null
+    var clickDispatcher: OnItemClick? = null
 
-    fun setOnItemClickListener(clickDispatcher:OnItemClick){
+    fun setOnItemClickListener(clickDispatcher: OnItemClick) {
         this.clickDispatcher = clickDispatcher
     }
 
@@ -35,14 +35,12 @@ class SimpleAdapter(private val context: Context, private val titles: ArrayList<
 
     inner class SimpleItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         override fun onClick(v: View?) {
-            clickDispatcher?.onClick(adapterPosition)
+            clickDispatcher?.onClick(this@SimpleAdapter::class.java.name, adapterPosition)
         }
         val title: AppCompatTextView = itemView.findViewById(R.id.tv_simple)
         init {
             itemView.setOnClickListener(this)
         }
-
-
     }
 
 }
