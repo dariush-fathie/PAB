@@ -1,5 +1,6 @@
 package ir.paad.audiobook.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -10,25 +11,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import ir.paad.audiobook.MainActivity
 import ir.paad.audiobook.R
 import kotlinx.android.synthetic.main.login_layout.*
-import android.content.Intent
-
-
 
 
 class LoginFragment : Fragment(), View.OnClickListener {
+
     override fun onClick(p0: View?) {
         when (p0?.id) {
 
-            R.id.act_login->{
+            R.id.act_login -> {
 
-              login()
+                login()
             }
 
-            R.id.act_login_wg->{
+            R.id.act_login_wg -> {
 
-                Toast.makeText(activity,"act_login_wg",Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "act_login_wg", Toast.LENGTH_LONG).show()
             }
 
             R.id.act_register -> {
@@ -40,11 +40,11 @@ class LoginFragment : Fragment(), View.OnClickListener {
             }
             R.id.act_register_alert -> {
 
-                Toast.makeText(activity,"act_register_alert",Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "act_register_alert", Toast.LENGTH_LONG).show()
             }
             R.id.act_recovery_alert -> {
 
-                Toast.makeText(activity,"act_recovery_alert",Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "act_recovery_alert", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -60,9 +60,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.login_layout, container, false)
@@ -71,6 +69,8 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as MainActivity).hideLoadLayout()
 
         act_recovery.setOnClickListener(this)
         act_register.setOnClickListener(this)
@@ -138,7 +138,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
     }
 
 
-    private fun login(){
+    private fun login() {
 
         val i = Intent()
         i.action = "ir.paad.audiobook.fragments.log_pro"

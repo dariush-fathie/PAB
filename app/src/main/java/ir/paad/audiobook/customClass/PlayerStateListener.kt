@@ -18,6 +18,12 @@ class PlayerStateListener(private val stateChangeListener: OnPlayerStateChanged,
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+        Log.e("sdfsdfds", "$playWhenReady")
+
+        if (playbackState == 4) {
+            Log.e("end of file", "end of file")
+        }
+
         if (!(mPlayWhenReady && playWhenReady)) {
             mPlayWhenReady = playWhenReady
             if (playWhenReady) {
@@ -37,11 +43,11 @@ class PlayerStateListener(private val stateChangeListener: OnPlayerStateChanged,
     }
 
     override fun onTracksChanged(trackGroups: TrackGroupArray?, trackSelections: TrackSelectionArray?) {
-
+        Log.e("player track", "slkdfjlsdfk")
     }
 
     override fun onPlayerError(error: ExoPlaybackException?) {
-
+        Log.e("error", "mlsdkfjsdlkf")
     }
 
     override fun onLoadingChanged(isLoading: Boolean) {

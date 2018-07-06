@@ -27,7 +27,7 @@ class AudioBookApp : Application(){
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init()
 
-        startService(Intent(this , OneSignalIdObserver::class.java))
+        //startService(Intent(this , OneSignalIdObserver::class.java))
         registerForNetworkChangeEvents()
     }
 

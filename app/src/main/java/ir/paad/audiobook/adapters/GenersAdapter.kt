@@ -7,16 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ir.paad.audiobook.R
-import ir.paad.audiobook.interfaces.OnItemClick
+import ir.paad.audiobook.interfaces.OnListItemClick
 import ir.paad.audiobook.models.GenerItem
 
 class GenersAdapter(val context: Context,  val geners: Array<GenerItem>) : RecyclerView.Adapter<GenersAdapter.GenerItemHolder>() {
 
 
-    private lateinit var clickDispatcher: OnItemClick
+    private lateinit var clickDispatcherList: OnListItemClick
 
-    fun setOnItemClickListener(i: OnItemClick) =apply{
-        clickDispatcher = i
+    fun setOnItemClickListener(i: OnListItemClick) =apply{
+        clickDispatcherList = i
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenerItemHolder {
@@ -37,8 +37,8 @@ class GenersAdapter(val context: Context,  val geners: Array<GenerItem>) : Recyc
     inner class GenerItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         override fun onClick(v: View?) {
 
-            if (this@GenersAdapter::clickDispatcher.isInitialized) {
-                clickDispatcher.onClick(this@GenersAdapter::class.java.name,adapterPosition)
+            if (this@GenersAdapter::clickDispatcherList.isInitialized) {
+                clickDispatcherList.onItemClick(this@GenersAdapter::class.java.name,adapterPosition)
             }
         }
 

@@ -38,11 +38,13 @@ class PlayerService : Service() {
     val notificationId = 1078
 
     private lateinit var mBinder: MyBinder
-    private lateinit var dispatcher:CustomControlDispatcher
+    private lateinit var dispatcher: CustomControlDispatcher
     var player: SimpleExoPlayer? = null
     private lateinit var mNotification: Notification
     private var playerNotificationManager: PlayerNotificationManager? = null
     private lateinit var mFocusHelper: AudioFocusHelper
+    private lateinit var concatenatingMediaSource: ConcatenatingMediaSource
+
 
     inner class MyBinder : Binder() {
         var playerService = this@PlayerService
@@ -53,7 +55,7 @@ class PlayerService : Service() {
     }
 
 
-    fun getDispatcher() : CustomControlDispatcher{
+    fun getDispatcher(): CustomControlDispatcher {
         return dispatcher
     }
 
@@ -68,7 +70,7 @@ class PlayerService : Service() {
         player = ExoPlayerFactory.newSimpleInstance(this, DefaultTrackSelector())
         val factory = CustomFileDataSourceFactory()
 
-        val concatenatingMediaSource = ConcatenatingMediaSource()
+        concatenatingMediaSource = ConcatenatingMediaSource()
         val mediaSource = ExtractorMediaSource.Factory(factory).createMediaSource(Uri.parse(file.path))
 
         concatenatingMediaSource.addMediaSource(mediaSource)
@@ -222,7 +224,26 @@ class PlayerService : Service() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        Log.e("new command", "${intent.getIntExtra("id", -1)} - ${intent.getIntExtra("track", -1)} - $flags , - $startId")
+        if (intent.getIntExtra("id", -1) == 0) {
+            changePlayList()
+        }
         return Service.START_NOT_STICKY
+    }
+
+    private fun changePlayList() {
+        player ?: throw  Exception("player is null what a fuck you doing man ?!!")
+        player?.playWhenReady = false
+        concatenatingMediaSource.clear()
+
+        val file2 = File(Environment.getExternalStorageDirectory(), "android.mp3")
+        val factory = CustomFileDataSourceFactory()
+        val mediaSource1 = ExtractorMediaSource.Factory(factory).createMediaSource(Uri.parse(file2.path))
+
+        concatenatingMediaSource.addMediaSource(mediaSource1)
+        player!!.prepare(concatenatingMediaSource)
+
+        play()
     }
 
     override fun onDestroy() {

@@ -8,14 +8,50 @@
     app:behavior_peekHeight="82dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
-    <include layout="@layout/small_player_control" />
 
     <RelativeLayout
-        android:alpha="0"
-        android:background="@drawable/gradient_color"
+        android:id="@+id/rl_smallController"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ir.paad.audiobook.customClass.CustomSmallPlayerControlView
+            android:id="@+id/exo_smallPlayerViewController"
+            android:layout_width="match_parent"
+            android:layout_height="36dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="1dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:text="فصل دوم ارباب حلقه ها : نبرد پنج سپاه"
+            android:textSize="12sp"
+            app:fontFamily="@font/yekan" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_closePlayer"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="4dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_delete_bold"
+            android:tint="@color/colorPrimaryDark" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_mainController"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@drawable/gradient_color"
         android:paddingBottom="16dp">
 
         <ir.paad.audiobook.customClass.CustomPlayerControlView

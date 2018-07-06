@@ -1,0 +1,11 @@
+<android.support.v7.widget.AppCompatButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/btn_commentSend"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="ارسال دیدگاه"
+    android:textColor="@color/white"
+    app:backgroundTint="@color/colorPrimary"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />

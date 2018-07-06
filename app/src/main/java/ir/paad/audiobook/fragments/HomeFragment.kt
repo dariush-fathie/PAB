@@ -46,6 +46,7 @@ class HomeFragment : Fragment(), View.OnClickListener, FragmentManager.OnBackSta
         childFragmentManager.addOnBackStackChangedListener(this)
     }
 
+
     override fun backPressed() {
         Log.e("HomeFragment", "onBackPressed")
         val topFragment = childFragmentManager.fragments[childFragmentManager.backStackEntryCount.minus(1)]

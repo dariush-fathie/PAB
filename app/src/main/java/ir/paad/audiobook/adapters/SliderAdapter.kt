@@ -8,20 +8,28 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.squareup.picasso.Picasso
 import ir.paad.audiobook.R
-import ir.paad.audiobook.interfaces.OnItemClick
+import ir.paad.audiobook.interfaces.OnListItemClick
 import ir.paad.audiobook.models.SlideItem
 import ir.paad.audiobook.utils.Converter
 
-class SliderAdapter( val context: Context, val slides: Array<SlideItem>) : RecyclerView.Adapter<SliderAdapter.SlideHolder>() {
+class SliderAdapter(val context: Context, val slides: Array<SlideItem>) : RecyclerView.Adapter<SliderAdapter.SlideHolder>() {
 
 
-    private lateinit var clickDispatcher: OnItemClick
+    private lateinit var clickDispatcherList: OnListItemClick
 
-    fun setOnItemClickListener(i: OnItemClick) = apply{
-        clickDispatcher = i
+    private var slideItemWidthInPx = 0
+    private var slideItemHeightInPx = 0
+
+
+    init {
+        slideItemHeightInPx = Converter.pxFromDp(context, 180f).toInt()
+        slideItemWidthInPx = Converter.getScreenWidthPx(context)
+    }
+
+    fun setOnItemClickListener(i: OnListItemClick) = apply {
+        clickDispatcherList = i
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SlideHolder {
@@ -31,10 +39,11 @@ class SliderAdapter( val context: Context, val slides: Array<SlideItem>) : Recyc
 
     override fun onBindViewHolder(holder: SlideHolder, position: Int) {
 
-        Glide.with(context)
+        Picasso.get()
                 .load(slides[position].url)
-                .apply(RequestOptions()
-                        .fitCenter()).into(holder.image)
+                .resize(slideItemWidthInPx, slideItemHeightInPx)
+                .centerCrop()
+                .into(holder.image)
 
     }
 
@@ -64,8 +73,8 @@ class SliderAdapter( val context: Context, val slides: Array<SlideItem>) : Recyc
 
 
         override fun onClick(v: View?) {
-            if (this@SliderAdapter::clickDispatcher.isInitialized) {
-                clickDispatcher.onClick(this@SliderAdapter::class.java.name, adapterPosition)
+            if (this@SliderAdapter::clickDispatcherList.isInitialized) {
+                clickDispatcherList.onItemClick(this@SliderAdapter::class.java.name, adapterPosition)
             }
         }
 

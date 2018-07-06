@@ -27,15 +27,19 @@ open class BookModel : RealmObject() {
 
     @SerializedName("authorName")
     @Expose
-    open var authorName: String = "" // todo : add this field to database
+    open var authorName: String = "empty" // todo : add this field to database
 
-    @SerializedName("photoUri")
+    @SerializedName("photoUrl")
     @Expose
     open var imageUrl: String = ""
 
     @SerializedName("tags")
     @Expose
     open var tags: String = ""
+
+    @SerializedName("price")
+    @Expose
+    open var price: Int = -1
 
     @SerializedName("ageLimit")
     @Expose

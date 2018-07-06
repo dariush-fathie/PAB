@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        app:layout_behavior="ir.paad.audiobook.customClass.FixedAppBarLayoutBehavior">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -18,7 +19,7 @@
             android:minHeight="92dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed">
 
-            <View
+            <!--<View
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 android:layout_marginTop="46dp"
@@ -34,7 +35,7 @@
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -164,10 +165,14 @@
                         </com.google.android.flexbox.FlexboxLayout>
 
                         <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                            style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="16dp"
                             android:layout_gravity="end"
+                            android:layout_marginBottom="8dp"
                             android:layout_marginTop="8dp"
+                            android:clickable="false"
+                            android:longClickable="false"
                             android:max="5"
                             android:rating="2.5"
                             app:mrb_fillBackgroundStars="true"
@@ -177,7 +182,6 @@
                             android:id="@+id/btn_buy"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
-                            android:layout_gravity="end"
                             android:text="خرید - 12،500 تومان"
                             android:textColor="@color/white"
                             app:backgroundTint="@color/colorAccent"
@@ -221,8 +225,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:background="@color/colorPrimaryDark"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
+                android:paddingEnd="4dp"
+                android:paddingStart="4dp"
                 app:layout_collapseMode="pin">
 
                 <android.support.v7.widget.AppCompatTextView
@@ -241,7 +245,7 @@
                     android:layout_height="40dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/menu_item_selector"
-                    android:padding="8dp"
+                    android:padding="7dp"
                     android:src="@drawable/ic_back1"
                     app:tint="@color/white" />
 
@@ -266,6 +270,7 @@
         android:id="@+id/fl_detailContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="46dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <View
@@ -276,4 +281,15 @@
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <!--<com.github.rahatarmanahmed.cpv.CircularProgressView
+        android:id="@+id/cpv_detail"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginTop="36dp"
+        app:cpv_animAutostart="true"
+        app:cpv_indeterminate="true"
+        app:cpv_thickness="2dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+-->
 </android.support.design.widget.CoordinatorLayout>

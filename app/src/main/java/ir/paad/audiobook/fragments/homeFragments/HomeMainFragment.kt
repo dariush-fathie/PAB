@@ -16,7 +16,7 @@ import ir.paad.audiobook.adapters.MainAdapter
 import ir.paad.audiobook.adapters.SliderAdapter
 import ir.paad.audiobook.decoration.HorizontalLinearLayoutDecoration
 import ir.paad.audiobook.decoration.VerticalLinearLayoutDecoration
-import ir.paad.audiobook.interfaces.OnItemClick
+import ir.paad.audiobook.interfaces.OnListItemClick
 import ir.paad.audiobook.models.BookModel
 import ir.paad.audiobook.models.GenerItem
 import ir.paad.audiobook.models.SlideItem
@@ -27,7 +27,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeMainFragment : Fragment(), View.OnClickListener, OnItemClick {
+class HomeMainFragment : Fragment(), View.OnClickListener, OnListItemClick {
 
     override fun onClick(v: View?) {
 
@@ -57,8 +57,6 @@ class HomeMainFragment : Fragment(), View.OnClickListener, OnItemClick {
     }
 
     private fun setClickListeners() {
-        iv_menu.setOnClickListener(this)
-        iv_sync.setOnClickListener(this)
     }
 
     private lateinit var sliderAdapter: SliderAdapter
@@ -106,15 +104,14 @@ class HomeMainFragment : Fragment(), View.OnClickListener, OnItemClick {
                     }
 
                     override fun onFailure(call: Call<List<BookModel>>?, t: Throwable?) {
-                        Log.e("BooksDownloader", t?.message)
+                        Log.e("BooksDownloader", t?.message + " ")
                     }
                 })
-
 
     }
 
     private fun loadSliderAdapter(slides: Array<SlideItem>) {
-        rv_slider.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        rv_slider.layoutManager = LinearLayoutManager(activity as Context, LinearLayoutManager.HORIZONTAL, false)
 
         rv_slider.addItemDecoration(HorizontalLinearLayoutDecoration(activity as Context,
                 8,
@@ -131,7 +128,7 @@ class HomeMainFragment : Fragment(), View.OnClickListener, OnItemClick {
     }
 
     private fun loadGenersAdapter(geners: Array<GenerItem>) {
-        rv_geners.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        rv_geners.layoutManager = LinearLayoutManager(activity as Context, LinearLayoutManager.HORIZONTAL, false)
         rv_geners.addItemDecoration(HorizontalLinearLayoutDecoration(activity as Context,
                 8,
                 8,
@@ -144,7 +141,7 @@ class HomeMainFragment : Fragment(), View.OnClickListener, OnItemClick {
     }
 
     private fun loadMainAdapter(books: ArrayList<BookModel>) {
-        rv_main.layoutManager = LinearLayoutManager(activity)
+        rv_main.layoutManager = LinearLayoutManager(activity as Context)
         rv_main.addItemDecoration(VerticalLinearLayoutDecoration(activity as Context,
                 8,
                 8,
@@ -153,17 +150,16 @@ class HomeMainFragment : Fragment(), View.OnClickListener, OnItemClick {
         mainAdapter = MainAdapter(context = activity as Context, books = books)
                 .setOnItemClickListener(this)
         rv_main.adapter = mainAdapter
-
     }
 
-    override fun onClick(host: String, position: Int) {
-        Log.e("onClick", host + " name")
+    override fun onItemClick(host: String, position: Int) {
+        Log.e("onItemClick", host + " name")
         when (host) {
             MainAdapter::class.java.name -> {
                 parentFragment?.childFragmentManager
                         ?.beginTransaction()
                         ?.add(R.id.fl_homeContainer, HomeDetailFragment(), "homeDetail")
-                        ?.addToBackStack("detail")
+                        ?.addToBackStack(null)
                         ?.commit()
                 /*val i = Intent(context, DetailActivity::class.java)
                 i.putExtra(context.getString(R.string.productId), books.get(adapterPosition).id)
@@ -174,7 +170,7 @@ class HomeMainFragment : Fragment(), View.OnClickListener, OnItemClick {
                 parentFragment?.childFragmentManager
                         ?.beginTransaction()
                         ?.add(R.id.fl_homeContainer, HomeListFragment(), "homeList")
-                        ?.addToBackStack("list")
+                        ?.addToBackStack(null)
                         ?.commit()
 
                 /*val i = Intent(context, ListActivity::class.java)
@@ -187,7 +183,7 @@ class HomeMainFragment : Fragment(), View.OnClickListener, OnItemClick {
                 parentFragment?.childFragmentManager
                         ?.beginTransaction()
                         ?.add(R.id.fl_homeContainer, HomeDetailFragment(), "homeDetail")
-                        ?.addToBackStack("detail")
+                        ?.addToBackStack(null)
                         ?.commit()
 
                 /*val i = Intent(context, DetailActivity::class.java)

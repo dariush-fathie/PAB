@@ -8,31 +8,26 @@ import android.view.ViewGroup
 import ir.paad.audiobook.MainActivity
 import ir.paad.audiobook.R
 
-
-class SearchFragment : Fragment() {
+class MoreFragment : Fragment() {
 
 
     companion object {
-        fun putBundle(bundle: Bundle): MyLibraryFragment {
-            val fragment = MyLibraryFragment()
+        fun putBundle(bundle: Bundle): ProfileFragment {
+            val fragment = ProfileFragment()
             fragment.arguments = bundle
             return fragment
         }
     }
 
-    override fun onResume() {
-        super.onResume()
 
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        return inflater.inflate(R.layout.fragment_more, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
 }

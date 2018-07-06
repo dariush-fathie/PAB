@@ -23,7 +23,7 @@ import ir.paad.audiobook.adapters.SimpleAdapter
 import ir.paad.audiobook.customClass.CenterZoomLayoutManager
 import ir.paad.audiobook.customClass.CustomSnapHelper
 import ir.paad.audiobook.decoration.VerticalLinearLayoutDecoration
-import ir.paad.audiobook.interfaces.OnItemClick
+import ir.paad.audiobook.interfaces.OnListItemClick
 import ir.paad.audiobook.models.BookModel
 import ir.paad.audiobook.utils.BooksDownloader
 import ir.paad.audiobook.utils.Colors
@@ -33,7 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class HomeListFragment : Fragment(), AppBarLayout.OnOffsetChangedListener, View.OnClickListener, OnItemClick, TabLayout.OnTabSelectedListener {
+class HomeListFragment : Fragment(), AppBarLayout.OnOffsetChangedListener, View.OnClickListener, OnListItemClick, TabLayout.OnTabSelectedListener {
 
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -72,7 +72,7 @@ class HomeListFragment : Fragment(), AppBarLayout.OnOffsetChangedListener, View.
         }
     }
 
-    override fun onClick(host: String, position: Int) {
+    override fun onItemClick(host: String, position: Int) {
         parentFragment?.childFragmentManager
                 ?.beginTransaction()
                 ?.add(R.id.fl_homeContainer, HomeDetailFragment(), "homDetail")
@@ -88,12 +88,10 @@ class HomeListFragment : Fragment(), AppBarLayout.OnOffsetChangedListener, View.
     }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-
         val alpha = (Math.abs(verticalOffset).toFloat() / appBarLayout!!.totalScrollRange.toFloat())
         tv_title.alpha = alpha
         tv_title.scaleX = Math.max(alpha, 0.5f)
         tv_title.scaleY = Math.max(alpha, 0.5f)
-        rv_generPicker.alpha = 1 - alpha
     }
 
     private var clickedPosition = 0
@@ -171,8 +169,8 @@ class HomeListFragment : Fragment(), AppBarLayout.OnOffsetChangedListener, View.
          rv_generPicker.layoutManager = generLayoutManager
          rv_generPicker.adapter = generAdapter
          snapHelper.attachToRecyclerView(rv_generPicker)
-         generAdapter.setOnItemClickListener(object : OnItemClick {
-             override fun onClick(host: String, position: Int) {
+         generAdapter.setOnItemClickListener(object : OnListItemClick {
+             override fun onItemClick(host: String, position: Int) {
                  val view = generLayoutManager.findViewByPosition(position)
                  if (view == null) {
                      rv_generPicker.smoothScrollToPosition(position)

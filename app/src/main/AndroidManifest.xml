@@ -20,7 +20,9 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppTheme.new">
@@ -46,6 +48,11 @@
 
         <service
             android:name=".services.OneSignalIdObserver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".services.DownloadService"
             android:enabled="true"
             android:exported="false" />
 

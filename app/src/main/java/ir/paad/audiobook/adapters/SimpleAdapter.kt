@@ -7,15 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ir.paad.audiobook.R
-import ir.paad.audiobook.interfaces.OnItemClick
+import ir.paad.audiobook.interfaces.OnListItemClick
 
 
 class SimpleAdapter(private val context: Context, private val titles: ArrayList<String>) : RecyclerView.Adapter<SimpleAdapter.SimpleItemHolder>() {
 
-    var clickDispatcher: OnItemClick? = null
+    var clickDispatcherList: OnListItemClick? = null
 
-    fun setOnItemClickListener(clickDispatcher: OnItemClick) {
-        this.clickDispatcher = clickDispatcher
+    fun setOnItemClickListener(clickDispatcherList: OnListItemClick) {
+        this.clickDispatcherList = clickDispatcherList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleItemHolder {
@@ -35,7 +35,7 @@ class SimpleAdapter(private val context: Context, private val titles: ArrayList<
 
     inner class SimpleItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         override fun onClick(v: View?) {
-            clickDispatcher?.onClick(this@SimpleAdapter::class.java.name, adapterPosition)
+            clickDispatcherList?.onItemClick(this@SimpleAdapter::class.java.name, adapterPosition)
         }
         val title: AppCompatTextView = itemView.findViewById(R.id.tv_simple)
         init {

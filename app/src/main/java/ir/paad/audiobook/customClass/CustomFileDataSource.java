@@ -30,7 +30,6 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -40,8 +39,6 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import ir.paad.audiobook.utils.CipherUtil;
 
 /**
  * A {@link DataSource} for reading local files.
@@ -75,8 +72,9 @@ public final class CustomFileDataSource implements DataSource {
         this.listener = listener;
     }
 
-    CipherInputStream cipherInputStream ;
-    File file1 ;
+    CipherInputStream cipherInputStream;
+    File file1;
+
     @Override
     public long open(DataSpec dataSpec) throws FileDataSourceException {
 
@@ -106,7 +104,7 @@ public final class CustomFileDataSource implements DataSource {
             //file = new RandomAccessFile(dataSpec.uri.getPath(), "r");
 
             file1 = new File(dataSpec.uri.getPath());
-            cipherInputStream = new CipherInputStream(new FileInputStream(file1), cipher){
+            cipherInputStream = new CipherInputStream(new FileInputStream(file1), cipher) {
                 @Override
                 public int available() throws IOException {
                     return in.available();
@@ -115,7 +113,7 @@ public final class CustomFileDataSource implements DataSource {
 
             long skipped = cipherInputStream.skip(dataSpec.position);
 
-            if (skipped < dataSpec.position){
+            if (skipped < dataSpec.position) {
                 throw new EOFException();
             }
 

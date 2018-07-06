@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomSheetBehavior
@@ -19,10 +20,7 @@ import android.util.Log
 import android.view.View
 import ir.paad.audiobook.customClass.BadgeDrawable
 import ir.paad.audiobook.customClass.PlayerStateListener
-import ir.paad.audiobook.fragments.HomeFragment
-import ir.paad.audiobook.fragments.MyLibraryFragment
-import ir.paad.audiobook.fragments.ProfileFragment
-import ir.paad.audiobook.fragments.SearchFragment
+import ir.paad.audiobook.fragments.*
 import ir.paad.audiobook.interfaces.IOnBackPressed
 import ir.paad.audiobook.models.events.PlayerEvent
 import ir.paad.audiobook.services.PlayerService
@@ -31,14 +29,16 @@ import ir.paad.audiobook.utils.Converter
 import ir.paad.audiobook.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.player_view_sheet.*
-import kotlinx.android.synthetic.main.small_player_control.*
+import net.idik.lib.cipher.so.CipherClient
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
 
 class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, ServiceConnection, View.OnClickListener, FragmentManager.OnBackStackChangedListener {
+
     override fun onBackStackChanged() {
         Log.e("mainActivity", "${supportFragmentManager.backStackEntryCount}")
+        hideLoadLayout()
     }
 
     private lateinit var iOnBackPressed: IOnBackPressed
@@ -49,14 +49,12 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.iv_playPause -> {
-                onPlayClick()
-            }
-            R.id.iv_closePlayer -> {
-                onCloseClick()
-            }
             R.id.cl_bottomSheetPlayerView -> {
                 onPlayerClick()
+            }
+
+            R.id.iv_closePlayer -> {
+                onCloseClick()
             }
         }
     }
@@ -67,6 +65,8 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        Log.e("cipher string", CipherClient.hello())
 
         tbl_main.addOnTabSelectedListener(this)
 
@@ -105,12 +105,20 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
             }
         }*/
 
-        val aes = Base64.encode("AES/CTR/NoPadding".toByteArray(Charsets.UTF_8), Base64.DEFAULT)
-        aes.forEach { byte ->
-            Log.e("byte", "$byte")
-        }
-        Log.e("AES ENCODED", aes.toString())
-        Log.e("AED DECODES", Base64.decode(aes, Base64.DEFAULT).toString().toByteArray(Charsets.UTF_8).toString())
+        val aes = "AES/CTR/NoPadding"
+
+        val a = arrayOf(645L)
+
+        val data = aes.toByteArray(Charsets.UTF_8)
+        val base64 = Base64.encodeToString(data, Base64.DEFAULT)
+
+        val data1 = Base64.decode(base64, Base64.DEFAULT)
+        val text = String(data, Charsets.UTF_8)
+
+
+        Log.e("plain text", text)
+        Log.e("encode text", base64)
+
         // add [HomeFragment] to backStack
         loadFragments(0)
         //addBadge(0)
@@ -121,14 +129,15 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
 
     }
 
+
+
+
     private fun setListeners() {
-        iv_playPause.setOnClickListener(this)
-        iv_closePlayer.setOnClickListener(this)
         cl_bottomSheetPlayerView.setOnClickListener(this)
+        iv_closePlayer.setOnClickListener(this)
     }
 
     // start music player
-
 
     override fun onStart() {
         super.onStart()
@@ -168,23 +177,23 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
         mPlayerService = b.playerService
         exo_playerViewController.player = mPlayerService.player
         exo_playerViewController.setControlDispatcher(mPlayerService.getDispatcher())
-        changePlayerImage(mPlayerService.player!!.playWhenReady)
+
+        exo_smallPlayerViewController.player = mPlayerService.player
+        exo_smallPlayerViewController.setControlDispatcher(mPlayerService.getDispatcher())
+
         showNotificationPlayer()
         mPlayerService.player!!.addListener(PlayerStateListener(object : PlayerStateListener.OnPlayerStateChanged {
             override fun onPlay() {
                 //ToastUtil.showShortToast(this@MainActivity, "onPlay")
-                changePlayerImage(true)
                 showSmallPlayer()
             }
 
             override fun onPause() {
                 //ToastUtil.showShortToast(this@MainActivity, "onPause")
-                changePlayerImage(false)
             }
         }, mPlayerService.player!!.playWhenReady))
         mBound = true
     }
-
 
     override fun onServiceDisconnected(name: ComponentName?) {
 
@@ -194,23 +203,9 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
         mPlayerService.showNotification()
     }
 
-    private fun onPlayClick() {
-        if (this::mPlayerService.isInitialized) {
-            if (mPlayerService.player!!.playWhenReady) {
-                mPlayerService.player!!.playWhenReady = false
-                changePlayerImage(false)
-            } else {
-                mPlayerService.play()
-                changePlayerImage(true)
-                showSmallPlayer()
-            }
-        }
-    }
-
     private fun onCloseClick() {
         if (this::mPlayerService.isInitialized) {
             mPlayerService.player!!.playWhenReady = false
-            changePlayerImage(false)
             hideSmallPlayer()
         }
     }
@@ -222,14 +217,6 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
     }
     // end music player
 
-    private fun changePlayerImage(isPlaying: Boolean) {
-        if (isPlaying) {
-            iv_playPause.setImageResource(R.drawable.ic_pause_bold)
-        } else {
-            iv_playPause.setImageResource(R.drawable.ic_play_bold)
-        }
-
-    }
 
     private fun hideSmallPlayer() {
         cl_bottomSheetPlayerView.visibility = View.INVISIBLE
@@ -257,7 +244,6 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
         mBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-
     private fun initBottomSheet() {
         mBottomSheetBehavior = BottomSheetBehavior.from(cl_bottomSheetPlayerView)
         mBottomSheetBehavior.setBottomSheetCallback(getBottomSheetCallback())
@@ -270,7 +256,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 rl_smallController.alpha = 1 - slideOffset
                 rl_mainController.alpha = slideOffset
-                cv_tblContainer.translationY = slideOffset * tabLayoutContainerHeight
+                tbl_main.translationY = slideOffset * tabLayoutContainerHeight
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -284,8 +270,8 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
         return mBottomSheetCallback
     }
 
-
     private fun loadFragments(position: Int) {
+        showLoadLayout()
         popUpBackStack()
         when (position) {
             0 -> {
@@ -296,25 +282,32 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
                             .addToBackStack("home")
                             .commit()
                 }
+                hideLoadLayout()
                 return
             }
             1 -> {
                 supportFragmentManager.beginTransaction()
                         .add(R.id.fl_mainContainer, SearchFragment())
-                        .addToBackStack("search")
+                        .addToBackStack(null)
                         .commit()
             }
 
             2 -> {
                 supportFragmentManager.beginTransaction()
                         .add(R.id.fl_mainContainer, MyLibraryFragment())
-                        .addToBackStack("myLib")
+                        .addToBackStack(null)
                         .commit()
             }
             3 -> {
                 supportFragmentManager.beginTransaction()
                         .add(R.id.fl_mainContainer, ProfileFragment())
-                        .addToBackStack("profile")
+                        .addToBackStack(null)
+                        .commit()
+            }
+            4 -> {
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.fl_mainContainer, MoreFragment())
+                        .addToBackStack(null)
                         .commit()
             }
         }
@@ -325,6 +318,16 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
         while (supportFragmentManager.backStackEntryCount > 1) {
             supportFragmentManager.popBackStackImmediate()
         }
+    }
+
+    private fun showLoadLayout() {
+        ll_load.visibility = View.VISIBLE
+    }
+
+    fun hideLoadLayout() {
+        Handler().postDelayed({
+            ll_load.visibility = View.GONE
+        }, 250)
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -368,13 +371,12 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener, Servi
                 iOnBackPressed.backPressed()
             } else {
                 if (supportFragmentManager.backStackEntryCount > 1) {
-                    supportFragmentManager.popBackStackImmediate()
+                    popUpBackStack()
                     tbl_main.getTabAt(0)?.select()
                 }
             }
         }
     }
-
 
     fun addBadge(tabPosition: Int) {
         tabBadgeImageViewAtPosition(tabPosition).setImageDrawable(createBadgeDrawable(5))

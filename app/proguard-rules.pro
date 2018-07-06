@@ -27,4 +27,7 @@
 }
 
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+#   cipher.io
+#   -keep class net.idik.lib.cipher.so.** {*;}

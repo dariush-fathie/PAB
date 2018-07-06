@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp">
+
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="به این کتاب چند ستاره میدید ؟!"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:fontFamily="@font/yekan" />
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/mbr_commentDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:max="5"
+        android:rating="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2"
+        app:mrb_fillBackgroundStars="true" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/et_commentBody"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/background2"
+        android:gravity="top"
+        android:hint="@string/shrink"
+        android:lineSpacingExtra="5dp"
+        android:lineSpacingMultiplier="1.2"
+        android:padding="8dp"
+        android:textSize="14sp"
+        app:fontFamily="@font/yekan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mbr_commentDialog" />
+
+</android.support.constraint.ConstraintLayout>

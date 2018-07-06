@@ -3,11 +3,11 @@ package ir.paad.audiobook.fragments.homeFragments
 import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -68,14 +68,22 @@ class HomeDetailFragment : Fragment(), TabLayout.OnTabSelectedListener, AppBarLa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setListeners()
-        tintFabPlay()
+
         tbl_detail.addOnTabSelectedListener(this)
-        tbl_detail.getTabAt(2)?.select()
         abl_detail.addOnOffsetChangedListener(this)
         childFragmentManager.addOnBackStackChangedListener(this)
+
     }
 
+    override fun onStart() {
+        super.onStart()
+        setListeners()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        tbl_detail.getTabAt(2)?.select()
+    }
 
     private fun setListeners() {
         iv_backNav.setOnClickListener(this)
@@ -83,11 +91,11 @@ class HomeDetailFragment : Fragment(), TabLayout.OnTabSelectedListener, AppBarLa
         btn_buy.setOnClickListener(this)
     }
 
-    private fun tintFabPlay() {
-        var drawable = fab_play.drawable
-        drawable = DrawableCompat.wrap(drawable)
-        DrawableCompat.setTint(drawable, Colors(activity as Context).colorPrimary)
-    }
+    /* private fun tintFabPlay() {
+         var drawable = fab_play.drawable
+         drawable = DrawableCompat.wrap(drawable)
+         DrawableCompat.setTint(drawable, Colors(activity as Context).colorPrimary)
+     }*/
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
     }
@@ -95,45 +103,45 @@ class HomeDetailFragment : Fragment(), TabLayout.OnTabSelectedListener, AppBarLa
     override fun onTabUnselected(tab: TabLayout.Tab?) {
     }
 
+    var flag = true
+
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        loadFragments(tab?.position!!)
+        if (flag) {
+            Handler().postDelayed({
+                loadFragments(tab?.position!!)
+            }, 200)
+            flag = false
+        } else {
+            loadFragments(tab?.position!!)
+        }
     }
 
     private fun loadFragments(position: Int) {
-        popUpBackStack()
         when (position) {
             2 -> {
-                if (childFragmentManager.backStackEntryCount == 0) {
-                    Log.e("sdfs", "$position")
-                    childFragmentManager.beginTransaction()
-                            .add(R.id.fl_detailContainer, IntroductionFragment())
-                            .addToBackStack("intro")
-                            .commit()
-                }
+                Log.e("sdfs", "$position")
+                childFragmentManager.beginTransaction()
+                        .replace(R.id.fl_detailContainer, IntroductionFragment())
+                        .addToBackStack("intro")
+                        .commit()
+
                 return
             }
             1 -> {
                 childFragmentManager.beginTransaction()
-                        .add(R.id.fl_detailContainer, CommentFragment())
-                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                        .replace(R.id.fl_detailContainer, CommentFragment())
                         .addToBackStack("comment")
                         .commit()
             }
 
             0 -> {
                 childFragmentManager.beginTransaction()
-                        .add(R.id.fl_detailContainer, ContentFragment())
+                        .replace(R.id.fl_detailContainer, ContentFragment())
                         .addToBackStack("content")
                         .commit()
             }
         }
         Log.e("backStackCount", "${childFragmentManager.backStackEntryCount}#")
-    }
-
-    private fun popUpBackStack() {
-        while (childFragmentManager.backStackEntryCount > 1) {
-            childFragmentManager.popBackStackImmediate()
-        }
     }
 
 }
